@@ -2,6 +2,7 @@ import pygame
 from pygame.locals import QUIT, KEYDOWN, K_RETURN
 from document import Document
 from Database import DB
+from MainMenu import MainMenu
 
 # Initialize pygame
 pygame.init()
@@ -25,12 +26,15 @@ dbContext = DB("./Game.db")
 
 
 class Game:
+    clickables=[]
+    menu=None
     def __init__(self, character_image):
         self.screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
         pygame.display.set_caption('Credit Check Chronicles')
         self.font = pygame.font.Font("assets/fonts/CONSOLA.TTF", 20)
         self.clock = pygame.time.Clock()
-        self.state = 'GAME_SCREEN'
+        self.state = 'MAIN_MENU'
+        self.menu=MainMenu(self.screen)
         self.character_image = pygame.image.load('assets/images/upper-man.png')
 
     def new_character(self, character_image, character_info):
@@ -77,15 +81,21 @@ class Game:
     def run(self):
         running = True
         while running:
+            self.screen.fill((0,0,0))
             for event in pygame.event.get():
                 if event.type == QUIT:
                     running = False
 
             if self.state == 'GAME_SCREEN':
                 self.game_screen()
+            if self.state== 'MAIN_MENU':
+                self.menu.loop()
 
             self.clock.tick(60)
+            print(self.state)
+            pygame.display.update()
         pygame.quit()
+
 
 if __name__ == "__main__":
     game = Game('assets/images/upper-man.png')
