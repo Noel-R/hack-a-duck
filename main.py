@@ -87,6 +87,7 @@ class Game:
             self.clock.tick(60)
         pygame.quit()
 
+
 if __name__ == "__main__":
     game = Game('assets/images/upper-man.png')
     game.new_character('assets/images/upper-man.png', {"First Name": "John", "age": 30, "city": "New York","DOB":"20/24/2124","house":"obamatown, obamingham"})
