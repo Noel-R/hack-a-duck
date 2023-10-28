@@ -1,5 +1,6 @@
 import pygame
 from pygame.locals import QUIT, KEYDOWN, K_RETURN
+import json
 from document import Document
 from Database import DB
 from MainMenu import MainMenu
@@ -9,9 +10,8 @@ pygame.init()
 
 # Constants
 SCREEN_WIDTH = 1200
-SCREEN_HEIGHT = 800
+SCREEN_HEIGHT = 600
 
-# Colors
 # Colors
 WHITE = (255, 255, 255)
 RED = (157, 41, 51)    # Muted, dark red
@@ -23,7 +23,6 @@ TAN = (211, 186, 141)  # Light beige/tan for backgrounds or text
 DARK_GREEN = (32, 50, 36)  # Darker green, potential for other UI elements
 
 dbContext = DB("./Game.db")
-
 
 class Game:
     clickables=[]
@@ -37,9 +36,16 @@ class Game:
         self.menu=MainMenu(self.screen)
         self.character_image = pygame.image.load('assets/images/upper-man.png')
 
-    def new_character(self, character_image, character_info):
+    def new_character(self, character_image, character_info, char_prov_docs):
         self.character_image = pygame.image.load(character_image)
         self.id = Document(character_info, self.screen)
+        self.char_prov_docs = Document(char_prov_docs, self.screen)
+        #self.recent_transactions = Document(dbContext.getRecentTransactions(), self.screen)
+
+    def get_guidebook(self):
+        with open("assets/guidebook.json") as json_file:
+            guide_info = json.load(json_file)
+        self.guidebook = Document(guide_info, self.screen)
 
     def game_screen(self):
         self.screen.fill(BLACK)
@@ -56,12 +62,10 @@ class Game:
         self.screen.blit(text, (SCREEN_WIDTH/3 + 10, 20))
 
         # Right top section for guidebook
-        pygame.draw.rect(self.screen, GRAY, (2*SCREEN_WIDTH/3, 0, SCREEN_WIDTH/3, SCREEN_HEIGHT/2))
-        text = self.font.render('Documents: Guide Book', True, WHITE)
-        self.screen.blit(text, (2*SCREEN_WIDTH/3 + 10, 20))
+        self.guidebook.renderToScreen(self.screen, 2*SCREEN_WIDTH/3, 0, SCREEN_WIDTH/3, SCREEN_HEIGHT/2, 10, None, BLACK, TAN)
 
         # Left bottom section for API account info
-        self.id.renderToScreen(self.screen, 0, SCREEN_HEIGHT/2, SCREEN_WIDTH/3, SCREEN_HEIGHT/2, 20)
+        self.id.renderToScreen(self.screen, 0, SCREEN_HEIGHT/2, SCREEN_WIDTH/3, SCREEN_HEIGHT/2, 20, "assets\\images\\capitol-one.png", BLACK, TAN)
 
         # Middle bottom section for API recent transactions
         pygame.draw.rect(self.screen, GRAY, (SCREEN_WIDTH/3, SCREEN_HEIGHT/2, SCREEN_WIDTH/3, SCREEN_HEIGHT/2))
@@ -98,6 +102,7 @@ class Game:
 
 
 if __name__ == "__main__":
-    game = Game('assets/images/upper-man.png')
-    game.new_character('assets/images/upper-man.png', {"First Name": "John", "age": 30, "city": "New York","DOB":"20/24/2124","house":"obamatown, obamingham"})
+    game = Game()
+    game.new_character('assets/images/upper-man.png', {"First Name": "John", "age": 30, "city": "New York","house":"obamatown, obamingham"}, {"First Name": "John", "age": 30, "city": "New York","house":"obamatown, obamingham"})
+    game.get_guidebook()
     game.run()
