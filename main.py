@@ -1,16 +1,18 @@
 import pygame
 from pygame.locals import QUIT, KEYDOWN, K_RETURN
+import json
+import time
 from document import Document
 from Database import DB
+from MainMenu import MainMenu
 
 # Initialize pygame
 pygame.init()
 
 # Constants
 SCREEN_WIDTH = 1200
-SCREEN_HEIGHT = 800
+SCREEN_HEIGHT = 600
 
-# Colors
 # Colors
 WHITE = (255, 255, 255)
 RED = (157, 41, 51)    # Muted, dark red
@@ -23,19 +25,38 @@ DARK_GREEN = (32, 50, 36)  # Darker green, potential for other UI elements
 
 dbContext = DB("./Game.db")
 
-
 class Game:
-    def __init__(self, character_image):
+    clickables=[]
+    menu=None
+    def __init__(self):
         self.screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
         pygame.display.set_caption('Credit Check Chronicles')
         self.font = pygame.font.Font("assets/fonts/CONSOLA.TTF", 20)
         self.clock = pygame.time.Clock()
-        self.state = 'GAME_SCREEN'
-        self.character_image = pygame.image.load('assets/images/upper-man.png')
+        self.state = 'MAIN_MENU'
+        self.menu=MainMenu(self.screen)
 
-    def new_character(self, character_image, character_info):
+        self.dialogues = []
+        self.last_dialogue_time = time.time()
+        self.dialogue_interval = 3  # seconds between dialogues
+        self.max_dialogues_on_screen = 4  # adjust as needed
+
+    def add_dialogue(self, dialogue):
+        self.dialogues.append(dialogue)
+        # Trim dialogues list if it's too long
+        while len(self.dialogues) > self.max_dialogues_on_screen:
+            self.dialogues.pop(0)
+
+    def new_character(self, character_image, character_info, char_prov_docs):
         self.character_image = pygame.image.load(character_image)
         self.id = Document(character_info, self.screen)
+        self.char_prov_docs = Document(char_prov_docs, self.screen)
+        #self.recent_transactions = Document(dbContext.getRecentTransactions(), self.screen)
+
+    def get_guidebook(self):
+        with open("assets/guidebook.json") as json_file:
+            guide_info = json.load(json_file)
+        self.guidebook = Document(guide_info, self.screen)
 
     def game_screen(self):
         self.screen.fill(BLACK)
@@ -52,12 +73,10 @@ class Game:
         self.screen.blit(text, (SCREEN_WIDTH/3 + 10, 20))
 
         # Right top section for guidebook
-        pygame.draw.rect(self.screen, GRAY, (2*SCREEN_WIDTH/3, 0, SCREEN_WIDTH/3, SCREEN_HEIGHT/2))
-        text = self.font.render('Documents: Guide Book', True, WHITE)
-        self.screen.blit(text, (2*SCREEN_WIDTH/3 + 10, 20))
+        self.guidebook.renderToScreen(self.screen, 2*SCREEN_WIDTH/3, 0, SCREEN_WIDTH/3, SCREEN_HEIGHT/2, 10, None, BLACK, TAN)
 
         # Left bottom section for API account info
-        self.id.renderToScreen(self.screen, 0, SCREEN_HEIGHT/2, SCREEN_WIDTH/3, SCREEN_HEIGHT/2, 20)
+        self.id.renderToScreen(self.screen, 0, SCREEN_HEIGHT/2, SCREEN_WIDTH/3, SCREEN_HEIGHT/2, 20, "assets\\images\\capitol-one.png", BLACK, TAN)
 
         # Middle bottom section for API recent transactions
         pygame.draw.rect(self.screen, GRAY, (SCREEN_WIDTH/3, SCREEN_HEIGHT/2, SCREEN_WIDTH/3, SCREEN_HEIGHT/2))
@@ -72,23 +91,40 @@ class Game:
         self.screen.blit(text1, (2*SCREEN_WIDTH/3 + 10, SCREEN_HEIGHT/2 + 20))
         self.screen.blit(text2, (2*SCREEN_WIDTH/3 + SCREEN_WIDTH/6 + 10, SCREEN_HEIGHT/2 + 20))
 
+        # Check if it's time for a new dialogue
+        current_time = time.time()
+        if current_time - self.last_dialogue_time > self.dialogue_interval:
+            self.add_dialogue("Random dialogue")  # replace with your dialogue logic
+            self.last_dialogue_time = current_time
+
+        # Render dialogues
+        for idx, dialogue in enumerate(self.dialogues[-self.max_dialogues_on_screen:]):
+            dialogue_surface = self.font.render(dialogue, True, WHITE)
+            y_position = SCREEN_HEIGHT/2 - (self.max_dialogues_on_screen - idx) * self.font.get_height()
+            self.screen.blit(dialogue_surface, (0, y_position))
+
         pygame.display.flip()
 
     def run(self):
         running = True
         while running:
+            self.screen.fill((0,0,0))
             for event in pygame.event.get():
                 if event.type == QUIT:
                     running = False
 
             if self.state == 'GAME_SCREEN':
                 self.game_screen()
+            if self.state== 'MAIN_MENU':
+                self.menu.loop()
 
             self.clock.tick(60)
+            pygame.display.update()
         pygame.quit()
 
 
 if __name__ == "__main__":
-    game = Game('assets/images/upper-man.png')
-    game.new_character('assets/images/upper-man.png', {"First Name": "John", "age": 30, "city": "New York","DOB":"20/24/2124","house":"obamatown, obamingham"})
+    game = Game()
+    game.new_character('assets/images/upper-man.png', {"First Name": "John", "age": 30, "city": "New York","house":"obamatown, obamingham"}, {"First Name": "John", "age": 30, "city": "New York","house":"obamatown, obamingham"})
+    game.get_guidebook()
     game.run()
