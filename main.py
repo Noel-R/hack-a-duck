@@ -35,7 +35,6 @@ class Game:
         self.clock = pygame.time.Clock()
         self.state = 'MAIN_MENU'
         self.menu=MainMenu(self.screen)
-        self.character_image = pygame.image.load('assets/images/upper-man.png')
 
         self.dialogues = []
         self.last_dialogue_time = time.time()
@@ -120,7 +119,6 @@ class Game:
                 self.menu.loop()
 
             self.clock.tick(60)
-            print(self.state)
             pygame.display.update()
         pygame.quit()
 
