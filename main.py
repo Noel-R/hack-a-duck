@@ -1,6 +1,7 @@
 import pygame
 from pygame.locals import QUIT, KEYDOWN, K_RETURN
 import json
+import time
 from document import Document
 from Database import DB
 from MainMenu import MainMenu
@@ -35,6 +36,17 @@ class Game:
         self.state = 'MAIN_MENU'
         self.menu=MainMenu(self.screen)
         self.character_image = pygame.image.load('assets/images/upper-man.png')
+
+        self.dialogues = []
+        self.last_dialogue_time = time.time()
+        self.dialogue_interval = 3  # seconds between dialogues
+        self.max_dialogues_on_screen = 4  # adjust as needed
+
+    def add_dialogue(self, dialogue):
+        self.dialogues.append(dialogue)
+        # Trim dialogues list if it's too long
+        while len(self.dialogues) > self.max_dialogues_on_screen:
+            self.dialogues.pop(0)
 
     def new_character(self, character_image, character_info, char_prov_docs):
         self.character_image = pygame.image.load(character_image)
@@ -79,6 +91,18 @@ class Game:
         text2 = self.font.render('Approve/Deny/Take Bribe?', True, WHITE)
         self.screen.blit(text1, (2*SCREEN_WIDTH/3 + 10, SCREEN_HEIGHT/2 + 20))
         self.screen.blit(text2, (2*SCREEN_WIDTH/3 + SCREEN_WIDTH/6 + 10, SCREEN_HEIGHT/2 + 20))
+
+        # Check if it's time for a new dialogue
+        current_time = time.time()
+        if current_time - self.last_dialogue_time > self.dialogue_interval:
+            self.add_dialogue("Random dialogue")  # replace with your dialogue logic
+            self.last_dialogue_time = current_time
+
+        # Render dialogues
+        for idx, dialogue in enumerate(self.dialogues[-self.max_dialogues_on_screen:]):
+            dialogue_surface = self.font.render(dialogue, True, WHITE)
+            y_position = SCREEN_HEIGHT/2 - (self.max_dialogues_on_screen - idx) * self.font.get_height()
+            self.screen.blit(dialogue_surface, (0, y_position))
 
         pygame.display.flip()
 
