@@ -28,14 +28,13 @@ dbContext = DB("./Game.db")
 class Game:
     clickables=[]
     menu=None
-    def __init__(self, character_image):
+    def __init__(self):
         self.screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
         pygame.display.set_caption('Credit Check Chronicles')
         self.font = pygame.font.Font("assets/fonts/CONSOLA.TTF", 20)
         self.clock = pygame.time.Clock()
         self.state = 'MAIN_MENU'
         self.menu=MainMenu(self.screen)
-        self.character_image = pygame.image.load('assets/images/upper-man.png')
 
         self.dialogues = []
         self.last_dialogue_time = time.time()
@@ -120,7 +119,6 @@ class Game:
                 self.menu.loop()
 
             self.clock.tick(60)
-            print(self.state)
             pygame.display.update()
         pygame.quit()
 

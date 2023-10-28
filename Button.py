@@ -44,10 +44,6 @@ class Button:
 		self.surface.blit(text,(textX,textY))
 
 
-		
-		
-		
-		
 	def __init__(self,surface,x,y,w,h,text,textColor,imgPath,leftclickFunc=None,rightClickFunc=None,textScale=0.5,fontPath="assets\\fonts\\CONSOLA.TTF"):
 		self.x=x
 		self.y=y

@@ -24,19 +24,18 @@ class MainMenu:
 	logoPos=None
 	def __init__(self,surface):
 		self.surface=surface
-		self.logo=pygame.image.load("C:\\Users\\george\\Documents\\anything\\assets\\images\\main menu\\logo.png")
+		self.logo=pygame.image.load("assets\\images\\main menu\\logo.png")
 		self.logoDims=[self.surface.get_width()/4,self.surface.get_height()/4]
 		self.logo=pygame.transform.scale(self.logo,self.logoDims)
 		self.logoY=-self.logoDims[1]
 		self.logoX=self.surface.get_width()/2-self.logoDims[0]/2
-		self.bg=pygame.image.load("C:\\Users\\george\\Documents\\anything\\assets\\images\\main-menu.png")
+		self.bg=pygame.image.load("assets\\images\\main-menu.png")
 		buttonWidth=surface.get_width()/3
 		buttonHeight=surface.get_height()/8
-		print(buttonWidth)
 		margin=buttonHeight/2
 		buttonX=(self.surface.get_width()/2)-buttonWidth/2
 		buttonY=surface.get_height()*0.4
-		self.clickable.append(Button(surface,buttonX,buttonY,buttonWidth,buttonHeight,"Start Game",(255,255,255),"C:\\Users\\george\\Documents\\anything\\assets\\images\\button\\menuButton1.png",self.startGame))
-		self.clickable.append(Button(surface,buttonX,buttonY++buttonHeight+margin,buttonWidth,buttonHeight,"PLACEHOLDER",(255,255,255),"C:\\Users\\george\\Documents\\anything\\assets\\images\\button\\menuButton1.png",self.startGame))
+		self.clickable.append(Button(surface,buttonX,buttonY,buttonWidth,buttonHeight,"Start Game",(255,255,255),"assets\\images\\button\\menuButton1.png",self.startGame))
+		self.clickable.append(Button(surface,buttonX,buttonY++buttonHeight+margin,buttonWidth,buttonHeight,"PLACEHOLDER",(255,255,255),"assets\\images\\button\\menuButton1.png",self.startGame))
 		
 	
