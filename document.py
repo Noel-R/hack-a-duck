@@ -1,5 +1,4 @@
 import json
-from msilib.schema import TextStyle
 import pygame
 
 class Document:
@@ -30,6 +29,3 @@ class Document:
             logo = pygame.transform.scale(logo, (w/2,h/2))
             surface.blit(logo,(x+w/2,y))
             textDims[1]+=gap
-
-
-
