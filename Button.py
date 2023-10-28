@@ -11,14 +11,14 @@ class Button:
 	textColor=None
 	img=None
 	textScale=0.5
+	rightClickFunc=None
+	leftClickFunc=None
 
 	
 	def onLeftClick(self):
-		#abstract class uno
-		pass
+		self.leftClickFunc()
 	def onRightClick(self):
-		#abstract class dos
-		pass
+		self.rightClickFunc()
 
 	def isColliding(self,x,y):
 		#checks for collision, use before calling onleftclick/onrightclick
@@ -41,7 +41,7 @@ class Button:
 		
 		
 		
-	def __init__(self,surface,x,y,w,h,text,textColor,imgPath,textScale=0.5,fontPath="assets\\fonts\\CONSOLA.TTF"):
+	def __init__(self,surface,x,y,w,h,text,textColor,imgPath,leftclickFunc=None,rightClickFunc=None,textScale=0.5,fontPath="assets\\fonts\\CONSOLA.TTF"):
 		self.x=x
 		self.y=y
 		self.surface=surface
@@ -52,5 +52,7 @@ class Button:
 		self.textScale
 		self.font=pygame.font.Font(fontPath)
 		self.textColor=textColor
+		self.rightClickFunc=rightClickFunc
+		self.leftClickFunc=leftclickFunc
 
 
