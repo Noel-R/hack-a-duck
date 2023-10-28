@@ -1,5 +1,6 @@
 import pygame
 from pygame.locals import QUIT, KEYDOWN, K_RETURN
+from Database import DB
 
 # Initialize pygame
 pygame.init()
@@ -11,6 +12,9 @@ SCREEN_HEIGHT = 600
 # Colors
 WHITE = (255, 255, 255)
 BLACK = (0, 0, 0)
+
+dbContext = DB("./Game.db")
+
 
 class Game:
     def __init__(self):
@@ -80,7 +84,6 @@ class Game:
                 self.game_win()
 
             self.clock.tick(60)
-
         pygame.quit()
 
 if __name__ == "__main__":
