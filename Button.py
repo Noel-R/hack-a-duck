@@ -14,7 +14,14 @@ class Button:
 	rightClickFunc=None
 	leftClickFunc=None
 
-	
+	def handleClick(self):
+		x,y=pygame.mouse.get_pos()
+		btn=pygame.mouse.get_pressed()
+		if self.isColliding(x,y):
+			if btn[0]:
+				self.onLeftClick()
+			if btn[1]:
+				self.onRightClick()
 	def onLeftClick(self):
 		self.leftClickFunc()
 	def onRightClick(self):
