@@ -1,4 +1,4 @@
-import json
+import jsonpickle
 
 
 class Day:
@@ -37,16 +37,17 @@ class Character:
 
 
 class Player:
-    balance = 0
-    salary = 0
+    Balance = 0
+    Salary = 0
 
     def __init__(self, playerData):
-        if playerData['balance'] is None or playerData['salary'] is None:
-            self.generate()
+        print(playerData)
+        self.Salary = playerData.Salary
+        self.Balance = playerData.Balance
 
     def generate(self):
-        self.balance = 100
-        self.salary = 100
+        self.Balance = 100
+        self.Salary = 100
 
 
 class Game:
@@ -54,8 +55,8 @@ class Game:
     days = []
 
     def __init__(self, gameData):
-        if gameData['firstLoad']:
-            self.firstLoad = True
+
+        self.firstLoad = gameData.Game.firstLoad
 
         if self.firstLoad:
             self.generate()
@@ -75,17 +76,16 @@ class GameData:
         self.parseData(data)
 
     def parseData(self, data):
+        self.Game = data['Game']
+        self.Player = data['Player']
+        self.Characters = data['Characters']
 
-        if data['game'] is None or data['player'] is None or data['characters'] is None:
-            self.Game = Game({'firstLoad': True})
-            self.Player = Player({})
-            self.Characters = []
-            return
-
-        self.Game = Game(data['game'])
-        self.Player = Player(data['player'])
-        for char, _ in data['characters']:
-            self.Characters.append(Character(char))
+    def getJSON(self):
+        return {
+            "Player": self.Player,
+            "Characters": self.Characters,
+            "Game": self.Game
+        }
 
 
 class DataFile:
@@ -99,18 +99,17 @@ class DataFile:
 
     def read(self):
         with open(self.fileLocation, "r") as file:
-            self.readData = json.load(file)
+            self.readData = jsonpickle.decode(file.read())
             self.gameData = GameData(self.readData)
 
     def write(self):
         with open(self.fileLocation, "w") as file:
-            json.dump(self.gameData, file)
+            file.write(jsonpickle.encode(self.gameData.getJSON()))
         print("Game saved.")
 
 
 def main():
     file = DataFile("./data.json")
-    file.write()
 
 
 main()
