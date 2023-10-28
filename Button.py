@@ -13,6 +13,7 @@ class Button:
 	textScale=0.5
 	rightClickFunc=None
 	leftClickFunc=None
+	data=None
 
 	def handleClick(self):
 		x,y=pygame.mouse.get_pos()
@@ -23,34 +24,45 @@ class Button:
 			if btn[1]:
 				self.onRightClick()
 	def onLeftClick(self):
-		self.leftClickFunc()
+		if self.leftClickFunc!=None:
+			self.leftClickFunc()
 	def onRightClick(self):
-		self.rightClickFunc()
+		if self.rightClickFunc!=None:
+			self.rightClickFunc()
 
 	def isColliding(self,x,y):
 		#checks for collision, use before calling onleftclick/onrightclick
 		if (x>=self.x and x<self.x+self.w) and (y>=self.y and y<self.y+self.h):
 			return True
 		return False
+	def debugRender(self):
+		
+		rect=pygame.draw.rect(self.surface,(0,0,0),(self.x,self.y,self.w,self.h))
+		#self.surface.blit(rect,(dims.x,dims.y))
+		
 
 	def render(self):
-		dims=pygame.Rect(self.x,self.y,self.w,self.h)
-		img=pygame.transform.scale(self.img,(self.w,self.h))
-		self.surface.blit(img,(self.x,self.y))
-		text=self.font.render(self.text,False,self.textColor)
-		text=pygame.transform.scale(text,(self.w*self.textScale,self.h*self.textScale))
-		textX=self.x+(self.w/2)-text.get_width()/2
-		textY=self.y+(self.h/2)-text.get_height()/2
-		self.surface.blit(text,(textX,textY))
+		if self.doRender:
+			dims=pygame.Rect(self.x,self.y,self.w,self.h)
+			img=pygame.transform.scale(self.img,(self.w,self.h))
+			self.surface.blit(img,(self.x,self.y))
+			text=self.font.render(self.text,False,self.textColor)
+			text=pygame.transform.scale(text,(self.w*self.textScale,self.h*self.textScale))
+			textX=self.x+(self.w/2)-text.get_width()/2
+			textY=self.y+(self.h/2)-text.get_height()/2
+			self.surface.blit(text,(textX,textY))
 		
 		
-	def __init__(self,surface,x,y,w,h,text,textColor,imgPath,leftclickFunc=None,rightClickFunc=None,textScale=0.5,fontPath="assets\\fonts\\CONSOLA.TTF"):
+	def __init__(self,surface,x,y,w,h,text,textColor,imgPath,leftclickFunc=None,rightClickFunc=None,textScale=0.5,fontPath="assets\\fonts\\CONSOLA.TTF",doRender=True,data=None):
 		self.x=x
 		self.y=y
+		self.doRender=doRender
 		self.surface=surface
 		self.h=h
 		self.w=w
-		self.img=pygame.image.load(imgPath)
+		self.data=data
+		if imgPath!=None:
+			self.img=pygame.image.load(imgPath)
 		self.text=text
 		self.textScale
 		self.font=pygame.font.Font(fontPath)
