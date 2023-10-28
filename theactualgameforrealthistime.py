@@ -54,29 +54,13 @@ class ThePartWhereWeScamPoorPeople:
         dialogue = self.font.render("Character Dialogue Here", True, WHITE)
         self.screen.blit(dialogue, (30, self.screen_height/4))
 
-        # Middle top section for documents character provides
-        pygame.draw.rect(self.screen, GRAY, (self.screen_width/3, 0, self.screen_width/3, self.screen_height/2))
-        text = self.font.render('Documents: Transactions Character Provides', True, WHITE)
-        self.screen.blit(text, (self.screen_width/3 + 10, 20))
-
-        # Right top section for guidebook
-        self.guidebook.renderToScreen(self.screen, 2*self.screen_width/3, 0, self.screen_width/3, self.screen_height/2, 10, None, BLACK, TAN)
-
         # Left bottom section for API account info
         self.id.renderToScreen(self.screen, 0, self.screen_height/2, self.screen_width/3, self.screen_height/2, 20, "assets\\images\\capitol-one.png", BLACK, TAN)
 
-        # Middle bottom section for API recent transactions
-        pygame.draw.rect(self.screen, GRAY, (self.screen_width/3, self.screen_height/2, self.screen_width/3, self.screen_height/2))
-        text = self.font.render('Documents: API Recent Transactions', True, WHITE)
-        self.screen.blit(text, (self.screen_width/3 + 10, self.screen_height/2 + 20))
-
-        # Right bottom section for system recommendation and decision
-        pygame.draw.rect(self.screen, GRAY, (2*self.screen_width/3, self.screen_height/2, self.screen_width/6, self.screen_height/2))
-        pygame.draw.rect(self.screen, GREEN, (2*self.screen_width/3 + self.screen_width/6, self.screen_height/2, self.screen_width/6, self.screen_height/2))
-        text1 = self.font.render('System Recommendation', True, WHITE)
-        text2 = self.font.render('Approve/Deny/Take Bribe?', True, WHITE)
-        self.screen.blit(text1, (2*self.screen_width/3 + 10, self.screen_height/2 + 20))
-        self.screen.blit(text2, (2*self.screen_width/3 + self.screen_width/6 + 10, self.screen_height/2 + 20))
+        # Place the desk.png image in the rest of the screen space
+        desk = pygame.image.load("assets/images/desk.png")
+        desk = pygame.transform.scale(desk, (int(self.screen_width*2/3), int(self.screen_height)))
+        self.screen.blit(desk, (int(self.screen_width/3), 0))
 
         # Check if it's time for a new dialogue
         current_time = time.time()
