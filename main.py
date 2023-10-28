@@ -1,5 +1,6 @@
 import pygame
 from pygame.locals import QUIT, KEYDOWN, K_RETURN
+from document import Document
 
 # Initialize pygame
 pygame.init()
@@ -22,14 +23,15 @@ DARK_GREEN = (32, 50, 36)  # Darker green, potential for other UI elements
 class Game:
     def __init__(self, character_image):
         self.screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
-        pygame.display.set_caption('Credit Check Chronicles Lite')
-        self.font = pygame.font.Font(None, 36)
+        pygame.display.set_caption('Credit Check Chronicles')
+        self.font = pygame.font.Font("assets/fonts/CONSOLA.TTF", 20)
         self.clock = pygame.time.Clock()
         self.state = 'GAME_SCREEN'
-        self.character_image = pygame.image.load('Images/upper-man.png')
+        self.character_image = pygame.image.load('assets/images/upper-man.png')
 
-    def new_character(self, character_image):
+    def new_character(self, character_image, character_info):
         self.character_image = pygame.image.load(character_image)
+        self.id = Document(character_info, self.screen)
 
     def game_screen(self):
         self.screen.fill(BLACK)
@@ -51,9 +53,7 @@ class Game:
         self.screen.blit(text, (2*SCREEN_WIDTH/3 + 10, 20))
 
         # Left bottom section for API account info
-        pygame.draw.rect(self.screen, GRAY, (0, SCREEN_HEIGHT/2, SCREEN_WIDTH/3, SCREEN_HEIGHT/2))
-        text = self.font.render('Documents: API Account Info', True, WHITE)
-        self.screen.blit(text, (10, SCREEN_HEIGHT/2 + 20))
+        self.id.renderToScreen(self.screen, 0, SCREEN_HEIGHT/2, SCREEN_WIDTH/3, SCREEN_HEIGHT/2, 20)
 
         # Middle bottom section for API recent transactions
         pygame.draw.rect(self.screen, GRAY, (SCREEN_WIDTH/3, SCREEN_HEIGHT/2, SCREEN_WIDTH/3, SCREEN_HEIGHT/2))
@@ -85,5 +85,6 @@ class Game:
         pygame.quit()
 
 if __name__ == "__main__":
-    game = Game('Images/upper-man.png')
+    game = Game('assets/images/upper-man.png')
+    game.new_character('assets/images/upper-man.png', {"First Name": "John", "age": 30, "city": "New York","DOB":"20/24/2124","house":"obamatown, obamingham"})
     game.run()
