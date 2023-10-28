@@ -13,9 +13,11 @@ class Button:
 	textScale=0.5
 
 	
-	def onLeftClick():
+	def onLeftClick(self):
+		#abstract class uno
 		pass
-	def onRightClick():
+	def onRightClick(self):
+		#abstract class dos
 		pass
 
 	def isColliding(self,x,y):
