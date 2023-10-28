@@ -28,7 +28,7 @@ dbContext = DB("./Game.db")
 class Game:
     clickables=[]
     menu=None
-    def __init__(self, character_image):
+    def __init__(self):
         self.screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
         pygame.display.set_caption('Credit Check Chronicles')
         self.font = pygame.font.Font("assets/fonts/CONSOLA.TTF", 20)
