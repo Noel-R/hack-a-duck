@@ -21,6 +21,7 @@ class Button:
 		pass
 
 	def isColliding(self,x,y):
+		#checks for collision, use before calling onleftclick/onrightclick
 		if (x>=self.x and x<self.x+self.w) and (y>=self.y and y<self.y+self.h):
 			return True
 		return False
