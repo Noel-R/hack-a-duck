@@ -1,115 +1,54 @@
-import jsonpickle
+from peewee import *
+
+db = SqliteDatabase('my_database.db')
 
 
-class Day:
-    dayNumber = 0
-    dayName = ''
-    checkedCharacters = []
-
-    def __init__(self, num, checkedChars):
-        self.dayNumber = num
-        self.checkedCharacters = checkedChars
-
-        match self.dayNumber:
-            case 0:
-                self.dayName = "Monday"
-            case 0:
-                self.dayName = "Tuesday"
-            case 0:
-                self.dayName = "Wednesday"
-            case 0:
-                self.dayName = "Thurday"
-            case 0:
-                self.dayName = "Friday"
+class BaseModel(Model):
+    class Meta:
+        database = db
 
 
-class Character:
-    name = ''
-    dob = ''
-    address = ''
-    email = ''
-    creditScore = ''
-    riskScore = ''
-    approved = False
-
-    def __init__(self, characterData):
-        pass
+class Player(BaseModel):
+    Salary = DoubleField()
+    Balance = DoubleField()
 
 
-class Player:
-    Balance = 0
-    Salary = 0
-
-    def __init__(self, playerData):
-        print(playerData)
-        self.Salary = playerData.Salary
-        self.Balance = playerData.Balance
-
-    def generate(self):
-        self.Balance = 100
-        self.Salary = 100
+class Character(BaseModel):
+    Name = TextField()
+    DOB = DateTimeField()
+    Address = TextField()
+    Email = TextField()
+    CreditScore = IntegerField()
+    RiskScore = IntegerField()
+    ApprovalState = BooleanField()
 
 
-class Game:
-    firstLoad = False
-    days = []
-
-    def __init__(self, gameData):
-
-        self.firstLoad = gameData.Game.firstLoad
-
-        if self.firstLoad:
-            self.generate()
-
-    def generate(self):
-        for i in range(0, 5):
-            self.days.append(Day(i, []))
-        self.firstLoad = False
+class Transaction(BaseModel):
+    ID = ForeignKeyField(Character, backref="transactions")
+    Merchant = TextField()
+    Category = TextField()
+    Amount = DoubleField()
+    Timestamp = DateTimeField()
+    Currency = TextField()
+    Status = BooleanField()
 
 
-class GameData:
-    Player = {}
-    Game = {}
-    Characters = []
-
-    def __init__(self, data):
-        self.parseData(data)
-
-    def parseData(self, data):
-        self.Game = data['Game']
-        self.Player = data['Player']
-        self.Characters = data['Characters']
-
-    def getJSON(self):
-        return {
-            "Player": self.Player,
-            "Characters": self.Characters,
-            "Game": self.Game
-        }
-
-
-class DataFile:
+class DB:
     fileLocation = ''
-    readData = ''
-    gameData = {}
+    db = None
 
-    def __init__(self, location):
-        self.fileLocation = location
-        self.read()
+    def __init__(self, fileLocation):
+        self.fileLocation = fileLocation
+        self.db = SqliteDatabase(self.fileLocation)
+        try:
+            self.connect()
+            self.generate_db()
+            print(f"Db loaded: {self.fileLocation}")
+        except Exception as e:
+            print(e)
 
-    def read(self):
-        with open(self.fileLocation, "r") as file:
-            self.readData = jsonpickle.decode(file.read())
-            self.gameData = GameData(self.readData)
+    def connect(self):
+        self.db.connect()
 
-    def write(self):
-        with open(self.fileLocation, "w") as file:
-            file.write(jsonpickle.encode(self.gameData.getJSON()))
-        print("Game saved.")
-
-
-def main():
-    file = DataFile("./data.json")
-
-
-main()
+    def generate_db(self):
+        db.create_tables([Player, Character, Transaction], safe=True)
