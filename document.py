@@ -1,5 +1,4 @@
 import json
-from msilib.schema import TextStyle
 import pygame
 
 class Document:
@@ -16,7 +15,7 @@ class Document:
         dims=pygame.Rect(x,y,w,h)
         data=[]
         pygame.draw.rect(surface,(0,0,255),dims)
-        font=pygame.font.Font("CONSOLA.TTF",int(w/20))
+        font=pygame.font.Font("assets\\fonts\\CONSOLA.TTF",int(w/20))
         gap=h/len(self.jsonDict)
         textDims=[x,y]
         #insert picture here
