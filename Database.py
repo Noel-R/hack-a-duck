@@ -52,3 +52,6 @@ class DB:
 
     def generate_db(self):
         db.create_tables([Player, Character, Transaction], safe=True)
+
+    def getRecentTransactions(self):
+        return Transaction.select().order_by(Transaction.Timestamp.desc()).limit(10)
