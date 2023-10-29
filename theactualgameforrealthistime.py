@@ -37,6 +37,7 @@ class ThePartWhereWeScamPoorPeople:
     def new_character(self, character_image, character_info, char_prov_docs):
         self.character_image = pygame.image.load(character_image)
         self.id = Document(character_info, self.screen)
+        self.compare= Document(character_info,self.screen)
         #self.char_prov_docs = Document(char_prov_docs, self.screen)
         #self.recent_transactions = Document(dbContext.getRecentTransactions(), self.screen)
 
@@ -51,17 +52,17 @@ class ThePartWhereWeScamPoorPeople:
         # Left top section for character image and dialogue
         self.screen.blit(pygame.transform.scale(self.character_image, (int(self.screen_width/3), int(self.screen_height/2))), (0, 0))
 
-        dialogue = self.font.render("Character Dialogue Here", True, WHITE)
-        self.screen.blit(dialogue, (30, self.screen_height/4))
-
-        # Left bottom section for API account info
-        self.id.renderToScreen(self.screen, 0, self.screen_height/2, self.screen_width/3, self.screen_height/2, 20, "assets\\images\\capitol-one.png", BLACK, TAN)
-
-        # Place the desk.png image in the rest of the screen space
+               # Place the desk.png image in the rest of the screen space
         desk = pygame.image.load("assets/images/desk.png")
         desk = pygame.transform.scale(desk, (int(self.screen_width*2/3), int(self.screen_height)))
         self.screen.blit(desk, (int(self.screen_width/3), 0))
 
+        dialogue = self.font.render("Character Dialogue Here", True, WHITE)
+        self.screen.blit(dialogue, (30, self.screen_height/4))
+
+        # Left bottom section for API account info
+        self.id.renderToScreen(self.screen, 0, self.screen_height/2, self.screen_width/3, self.screen_height/2, 20, "assets\\images\\capitol-one.png", BLACK)
+        self.compare.renderToScreen(self.screen, self.screen_width/2, self.screen_height/2, self.screen_width/3, self.screen_height/2, 20, "assets\\images\\capitol-one.png", BLACK)
         # Check if it's time for a new dialogue
         current_time = time.time()
         if current_time - self.last_dialogue_time > self.dialogue_interval:

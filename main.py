@@ -26,6 +26,7 @@ class MainMenu:
     logoDims = None
     logoPos = None
 
+
     def startGame(self):
         global GAME_STATE
         GAME_STATE = 'GAME_SCREEN'
