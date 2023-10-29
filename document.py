@@ -146,13 +146,13 @@ class Id(Document):
    
         for button in self.buttons:
             if button.data[2]:
-                button.background = (255, 0, 0)
+                fontColor = (255, 0, 0)
             else:
-                button.background = (0, 255, 0)
+                fontColor= (0,0, 0)
             
-            button.docrender()
+            #button.docrender()
             text=str(button.data[0])+": "+str(button.data[1])         
-            text=font.render(text,True,self.font_color,None)
+            text=font.render(text,True,fontColor,None)
             textSize=(self.w/2,self.h/len(self.jsonDict)/2)
 
             text=pygame.transform.scale(text,textSize)
