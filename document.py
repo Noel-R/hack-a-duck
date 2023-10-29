@@ -1,6 +1,7 @@
 import json
 import pygame
-from button import Button
+from Button import Button
+
 class Document:
     jsonDict={}
     renderSurface=None
