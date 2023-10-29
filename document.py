@@ -1,6 +1,6 @@
 import json
 import pygame
-from button import Button
+from Button import Button
 import plswork
 
 class Document:
@@ -19,7 +19,7 @@ class Document:
         jsonDict.pop("developerId")
         for k,v in jsonDict.items():
             if count==10:
-               break
+                break
             setattr(self,k,v)
             print(k,v)
     def renderToScreen(self,surface,x,y,w,h,font_size,img,font_color=(255,255,255),font="assets/fonts/CONSOLA.TTF"):
@@ -54,7 +54,7 @@ class Document:
             count+=1
 
         for b in self.colliders:
-           # b.debugRender()
+            # b.debugRender()
             b.handleClick()
 
     

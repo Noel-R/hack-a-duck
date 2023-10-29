@@ -4,6 +4,7 @@ import json
 import time
 from document import Document
 from plswork import apiGenData
+from Button import Button
 
 # Colors
 WHITE = (255, 255, 255)
@@ -16,6 +17,7 @@ TAN = (211, 186, 141)  # Light beige/tan for backgrounds or text
 DARK_GREEN = (32, 50, 36)  # Darker green, potential for other UI elements
 
 class ThePartWhereWeScamPoorPeople:
+    clickable = []
     def __init__(self, screen, screen_width, screen_height):
         self.screen = screen
         self.screen_width = screen_width
@@ -31,6 +33,14 @@ class ThePartWhereWeScamPoorPeople:
         self.max_time = 120
         self.TICK_SECOND = pygame.USEREVENT + 1
         pygame.time.set_timer(self.TICK_SECOND, 1000)
+
+    def add_approve_button(self):
+        approve_button = Button(self.screen, self.screen_width - 200, self.screen_height - 100, 100, 100, "", WHITE, "assets\\images\\button\\approve.png")
+        self.clickable.append(approve_button)
+
+    def add_deny_button(self):
+        deny_button = Button(self.screen, self.screen_width - 100, self.screen_height - 100, 100, 100, "", WHITE, "assets\\images\\button\\deny.png")
+        self.clickable.append(deny_button)
 
     def add_dialogue(self, dialogue):
         self.dialogues.append(dialogue)
@@ -82,11 +92,18 @@ class ThePartWhereWeScamPoorPeople:
         #self.compare.renderToScreen(self.screen, self.screen_width/2, self.screen_height/2, self.screen_width/3, self.screen_height/2, 20, "assets\\images\\capitol-one.png", BLACK)
         
         timer_font = pygame.font.Font("assets/fonts/CONSOLA.TTF", 80)
-        timer_text = timer_font.render(str(self.timer + "/" + self.max_time), True, (0, 0, 0))
-        self.screen.blit(timer_text, (self.screen_width - 100, 10))
+        timer_text = timer_font.render(str(self.timer) + "/" + str(self.max_time), True, (0, 0, 0))
+        self.screen.blit(timer_text, (self.screen_width - 300, 10))
+
+        for button in self.clickable:
+            button.render()
+            button.handleClick()
 
         self.check_dialogue()
         self.render_dialogue()
+
+        self.add_approve_button()
+        self.add_deny_button()
 
         pygame.display.flip()
 
