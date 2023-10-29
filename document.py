@@ -1,6 +1,7 @@
 import json
 import pygame
-from Button import Button
+from button import Button
+import plswork
 
 class Document:
     jsonDict={}
@@ -14,8 +15,12 @@ class Document:
         self.jsonDict=jsonDict
         self.surface=renderSurface
         self.bgPath=bgPath
+        count=0
         for k,v in jsonDict.items():
+            if count==10:
+               break
             setattr(self,k,v)
+            print(k,v)
     def renderToScreen(self,surface,x,y,w,h,font_size,img,font_color=(255,255,255),font="assets/fonts/CONSOLA.TTF"):
         #renders id to screen
         dims=pygame.Rect(x,y,w,h)
@@ -24,7 +29,7 @@ class Document:
         bg=pygame.transform.scale(bg,(dims[2],dims[3]))
         surface.blit(bg,dims)
         font=pygame.font.Font(font,font_size)
-        gap=h/len(self.jsonDict)-font_size
+        gap=h/10
         textDims=[x,y]
         #insert picture here
         count=0
@@ -48,7 +53,7 @@ class Document:
             count+=1
 
         for b in self.colliders:
-            b.debugRender()
+           # b.debugRender()
             b.handleClick()
 
     

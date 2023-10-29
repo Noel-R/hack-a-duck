@@ -4,6 +4,7 @@ import json
 import time
 from document import Document
 from Database import DB
+from plswork import apiGenData
 
 # Colors
 WHITE = (255, 255, 255)
@@ -40,8 +41,8 @@ class ThePartWhereWeScamPoorPeople:
 
     def new_character(self, character_image, character_info, char_prov_docs):
         self.character_image = pygame.image.load(character_image)
-        self.id = Document(character_info, self.screen)
-        self.compare= Document(character_info,self.screen)
+        self.id = Document(apiGenData(), self.screen)
+        self.compare= Document(apiGenData(),self.screen)
         #self.char_prov_docs = Document(char_prov_docs, self.screen)
         #self.recent_transactions = Document(dbContext.getRecentTransactions(), self.screen)
 
@@ -61,7 +62,7 @@ class ThePartWhereWeScamPoorPeople:
 
         # Left bottom section for API account info
         self.id.renderToScreen(self.screen, 0, self.screen_height/2, self.screen_width/3, self.screen_height/2, 20, "assets\\images\\capitol-one.png", BLACK)
-        self.compare.renderToScreen(self.screen, self.screen_width/2, self.screen_height/2, self.screen_width/3, self.screen_height/2, 20, "assets\\images\\capitol-one.png", BLACK)
+        #self.compare.renderToScreen(self.screen, self.screen_width/2, self.screen_height/2, self.screen_width/3, self.screen_height/2, 20, "assets\\images\\capitol-one.png", BLACK)
         # Check if it's time for a new dialogue
         current_time = time.time()
         if current_time - self.last_dialogue_time > self.dialogue_interval:

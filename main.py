@@ -2,7 +2,7 @@ import pygame
 from pygame.locals import QUIT, KEYDOWN, K_RETURN
 import json
 import time
-from Button import Button
+from button import Button
 from document import Document
 from theactualgameforrealthistime import ThePartWhereWeScamPoorPeople
 
