@@ -3,7 +3,6 @@ from pygame.locals import *
 import json
 import time
 from document import Document
-from Database import DB
 from plswork import apiGenData
 
 # Colors

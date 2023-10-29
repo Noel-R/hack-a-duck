@@ -16,11 +16,12 @@ class Document:
         self.surface=renderSurface
         self.bgPath=bgPath
         count=0
+        jsonDict.pop("developerId")
         for k,v in jsonDict.items():
             if count==10:
                break
-            setattr(self,k,v)
-            print(k,v)
+               setattr(self,k,v)
+            
     def renderToScreen(self,surface,x,y,w,h,font_size,img,font_color=(255,255,255),font="assets/fonts/CONSOLA.TTF"):
         #renders id to screen
         dims=pygame.Rect(x,y,w,h)
