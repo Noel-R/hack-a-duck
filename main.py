@@ -2,7 +2,7 @@ import pygame
 from pygame.locals import *
 import json
 import time
-from button import Button
+from Button import Button
 from document import Document
 from theactualgameforrealthistime import ThePartWhereWeScamPoorPeople
 

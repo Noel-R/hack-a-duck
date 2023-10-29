@@ -4,6 +4,7 @@ import json
 import time
 from document import Document
 from plswork import apiGenData
+from Button import Button
 
 # Colors
 WHITE = (255, 255, 255)
@@ -16,6 +17,7 @@ TAN = (211, 186, 141)  # Light beige/tan for backgrounds or text
 DARK_GREEN = (32, 50, 36)  # Darker green, potential for other UI elements
 
 class ThePartWhereWeScamPoorPeople:
+    clickable = []
     def __init__(self, screen, screen_width, screen_height):
         self.screen = screen
         self.screen_width = screen_width
@@ -31,6 +33,14 @@ class ThePartWhereWeScamPoorPeople:
         self.max_time = 120
         self.TICK_SECOND = pygame.USEREVENT + 1
         pygame.time.set_timer(self.TICK_SECOND, 1000)
+
+    def add_approve_button(self):
+        approve_button = Button(self.screen, self.screen_width - 200, self.screen_height - 100, 100, 100, "", WHITE, "assets\\images\\button\\approve.png")
+        self.clickable.append(approve_button)
+
+    def add_deny_button(self):
+        deny_button = Button(self.screen, self.screen_width - 100, self.screen_height - 100, 100, 100, "", WHITE, "assets\\images\\button\\deny.png")
+        self.clickable.append(deny_button)
 
     def add_dialogue(self, dialogue):
         self.dialogues.append(dialogue)
@@ -51,9 +61,9 @@ class ThePartWhereWeScamPoorPeople:
             dialogue_surface = self.font.render(dialogue, True, WHITE)
             y_position = self.screen_height/2 - 100 - (self.max_dialogues_on_screen - idx) * self.font.get_height()
             if dialogue.startswith("You:"):
-                self.screen.blit(dialogue_surface, (40, y_position))
+                self.screen.blit(dialogue_surface, (self.screen_width/3 - 20, y_position))
             else:
-                self.screen.blit(dialogue_surface, (0, y_position))
+                self.screen.blit(dialogue_surface, (self.screen_width/3 - 60, y_position))
 
     def new_character(self, character_image, character_info, char_prov_docs):
         self.character_image = pygame.image.load(character_image)
@@ -72,9 +82,12 @@ class ThePartWhereWeScamPoorPeople:
         desk = pygame.transform.scale(desk, (int(self.screen_width*2/3), int(self.screen_height)))
         self.screen.blit(desk, (int(self.screen_width/3), 0))
 
-        # Write dialogue
+        # draw a rectangle for the dialogue box, which goes on top of the desk
+        pygame.draw.rect(self.screen, GRAY, (self.screen_width/3, 0, self.screen_width/4, self.screen_height/2))
+
+        # Write dialogue on top of dialogue box
         dialogue = self.font.render("", True, WHITE)
-        self.screen.blit(dialogue, (30, self.screen_height/4))
+        self.screen.blit(dialogue, (self.screen_width/3 + 20, 20))
 
         # Left bottom section for API account info
         self.id.renderToScreen()
@@ -82,10 +95,17 @@ class ThePartWhereWeScamPoorPeople:
 
         timer_font = pygame.font.Font("assets/fonts/CONSOLA.TTF", 80)
         timer_text = timer_font.render(str(self.timer) + "/" + str(self.max_time), True, (0, 0, 0))
-        self.screen.blit(timer_text, (self.screen_width - 100, 10))
+        self.screen.blit(timer_text, (self.screen_width - 300, 10))
+
+        for button in self.clickable:
+            button.render()
+            button.handleClick()
 
         self.check_dialogue()
         self.render_dialogue()
+
+        self.add_approve_button()
+        self.add_deny_button()
 
         pygame.display.flip()
 

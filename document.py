@@ -1,6 +1,6 @@
 import json
 import pygame
-from button import Button
+from Button import Button
 import plswork
 import copy
 class Document:
