@@ -16,6 +16,9 @@ class Button:
 	data=None
 	lcArgs=None
 	rcArgs=None
+ 
+	def getData(self):
+		return self.data
 
 	def handleClick(self):
 		x,y=pygame.mouse.get_pos()
@@ -50,18 +53,20 @@ class Button:
 		
 
 	def render(self):
-		if self.doRender:
-			dims=pygame.Rect(self.x,self.y,self.w,self.h)
-			img=pygame.transform.scale(self.img,(self.w,self.h))
-			self.surface.blit(img,(self.x,self.y))
-			text=self.font.render(self.text,False,self.textColor)
-			text=pygame.transform.scale(text,(self.w*self.textScale,self.h*self.textScale))
-			textX=self.x+(self.w/2)-text.get_width()/2
-			textY=self.y+(self.h/2)-text.get_height()/2
-			self.surface.blit(text,(textX,textY))
+		dims=pygame.Rect(self.x,self.y,self.w,self.h)
+		img=pygame.transform.scale(self.img,(self.w,self.h))
+		self.surface.blit(img,(self.x,self.y))
+		text=self.font.render(self.text,False,self.textColor)
+		# text=pygame.transform.scale(self, text, self.surface)
+		textX=self.x+(self.w/2)-text.get_width()/2
+		textY=self.y+(self.h/2)-text.get_height()/2
+		self.surface.blit(text,(textX,textY))
+	
+ 
+	def docrender(self):
+		pygame.draw.rect(self.surface,self.background,(self.x,self.y,self.w,self.h))
 		
-		
-	def __init__(self,surface,x,y,w,h,text="",textColor=(255,255,255),imgPath=None,leftClickFunc=None,rightClickFunc=None,textScale=0.5,fontPath="assets\\fonts\\CONSOLA.TTF",doRender=True,data=None,lcArgs=None,rcArgs=None):
+	def __init__(self, surface, x, y, w, h, text="", textColor=(255, 255, 255), imgPath=None, leftClickFunc=None, rightClickFunc=None, textScale=0.5, fontPath="assets\\fonts\\CONSOLA.TTF", doRender=True, data=None, lcArgs=None, rcArgs=None):
 		self.x=x
 		self.y=y
 		self.lcArgs=lcArgs
