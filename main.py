@@ -1,3 +1,4 @@
+#main.py
 import pygame
 from pygame.locals import *
 import json
