@@ -4,6 +4,7 @@ import json
 import time
 from document import Document
 from Database import DB
+from plswork import apiGenData
 
 # Colors
 WHITE = (255, 255, 255)
@@ -57,8 +58,8 @@ class ThePartWhereWeScamPoorPeople:
 
     def new_character(self, character_image, character_info, char_prov_docs):
         self.character_image = pygame.image.load(character_image)
-        self.id = Document(character_info, self.screen)
-        self.compare= Document(character_info,self.screen)
+        self.id = Document(apiGenData(), self.screen)
+        self.compare= Document(apiGenData(),self.screen)
         #self.char_prov_docs = Document(char_prov_docs, self.screen)
         #self.recent_transactions = Document(dbContext.getRecentTransactions(), self.screen)
 
