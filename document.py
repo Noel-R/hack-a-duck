@@ -7,9 +7,18 @@ class Document:
     jsonDict={}
     renderSurface=None
     buttons=[]
+    
+    def toggleButtons(self, button):
+        for b in self.buttons:
+            if b.data[0]==button.data[0]:
+                b.data[2]= True
+            else:
+                b.data[2]= False
+            
     def press(self,button):
-        print(button.data)
-        button.data[2]=not button.data[2]
+        self.toggleButtons(button)
+        print(f"Button Data: {button.getData()}\n")
+        
     def __init__(self,jsonDict,surface,x,y,w,h,font_size,img,font_color=(255,255,255),bgPath="assets\\images\\documents\\documents.jpg",font="assets/fonts/CONSOLA.TTF"):
         #converts json dictionary items to class attributes
         self.jsonDict=jsonDict
@@ -25,21 +34,21 @@ class Document:
         self.font=font
         self.dims=pygame.Rect(x,y,w,h)
         self.gap=self.h/10
-        count=0
         jsonDict.pop("developerId")
         self.genButtons()
-        for k,v in jsonDict.items():
-            if count==10:
-               break
-            self.buttons[count].data=[k,v,False]
-            setattr(self,k,v)
-            print(k,v)
         
+        i = 0        
+        for k,v in jsonDict.items():
+            if i <= 9:
+                self.buttons[i].data=[k,v, False]
+                i += 1
+            else:
+                return
 
     def genButtons(self):
         buttonDims=copy.copy(self.dims)
         for i in range(10):
-            b=Button(self.surface,buttonDims.x,buttonDims.y,buttonDims.w,buttonDims.h,leftClickFunc=self.press,data=[None,None,False])
+            b=Button(self.surface,buttonDims.x,buttonDims.y,buttonDims.w,10,leftClickFunc=self.press,data=[None,None,False], )
             b.lcArgs=b
             buttonDims.y+=self.gap
             self.buttons.append(b)

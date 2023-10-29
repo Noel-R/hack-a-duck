@@ -6,6 +6,7 @@ from Button import Button
 from document import Document
 from theactualgameforrealthistime import ThePartWhereWeScamPoorPeople
 
+
 # Initialize pygame
 pygame.init()
 
@@ -109,7 +110,9 @@ class Game:
         with open("assets/character_info.json") as json_file:
             char_info = json.load(json_file)
         game.new_character("assets/images/upper-man.png", char_info, "assets/character_prov_docs.json")
+        
         game.game_screen()
+        
         game.loop()
 
     def guidebook(self):

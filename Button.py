@@ -16,6 +16,9 @@ class Button:
 	data=None
 	lcArgs=None
 	rcArgs=None
+ 
+	def getData(self):
+		return self.data
 
 	def handleClick(self):
 		x,y=pygame.mouse.get_pos()
