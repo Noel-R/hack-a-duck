@@ -14,6 +14,8 @@ class Button:
 	rightClickFunc=None
 	leftClickFunc=None
 	data=None
+	lcArgs=None
+	rcArgs=None
 
 	def handleClick(self):
 		x,y=pygame.mouse.get_pos()
@@ -25,10 +27,16 @@ class Button:
 				self.onRightClick()
 	def onLeftClick(self):
 		if self.leftClickFunc!=None:
-			self.leftClickFunc()
+			if self.lcArgs==None:
+				self.leftClickFunc()
+			else:
+				self.leftClickFunc(self.lcArgs)
 	def onRightClick(self):
 		if self.rightClickFunc!=None:
-			self.rightClickFunc()
+			if self.rcArgs==None:
+				self.rightClickFunc()
+			else:
+				self.rightClickFunc(self.rcArgs)
 
 	def isColliding(self,x,y):
 		#checks for collision, use before calling onleftclick/onrightclick
@@ -53,9 +61,11 @@ class Button:
 			self.surface.blit(text,(textX,textY))
 		
 		
-	def __init__(self,surface,x,y,w,h,text,textColor,imgPath,leftclickFunc=None,rightClickFunc=None,textScale=0.5,fontPath="assets\\fonts\\CONSOLA.TTF",doRender=True,data=None):
+	def __init__(self,surface,x,y,w,h,text,textColor,imgPath,leftclickFunc=None,rightClickFunc=None,textScale=0.5,fontPath="assets\\fonts\\CONSOLA.TTF",doRender=True,data=None,lcArgs=None,rcArgs=None):
 		self.x=x
 		self.y=y
+		self.lcArgs=lcArgs
+		self.rcArgs=rcArgs
 		self.doRender=doRender
 		self.surface=surface
 		self.h=h
