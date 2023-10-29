@@ -57,8 +57,7 @@ class ThePartWhereWeScamPoorPeople:
 
     def new_character(self, character_image, character_info, char_prov_docs):
         self.character_image = pygame.image.load(character_image)
-        self.id = Document(apiGenData(), self.screen)
-        self.compare= Document(apiGenData(),self.screen)
+        self.id = Document(apiGenData(),self.screen, 0, self.screen_height/2, self.screen_width/3, self.screen_height/2, 20, "assets\\images\\capitol-one.png", BLACK)
         #self.char_prov_docs = Document(char_prov_docs, self.screen)
         #self.recent_transactions = Document(dbContext.getRecentTransactions(), self.screen)
 
@@ -78,11 +77,11 @@ class ThePartWhereWeScamPoorPeople:
         self.screen.blit(dialogue, (30, self.screen_height/4))
 
         # Left bottom section for API account info
-        self.id.renderToScreen(self.screen, 0, self.screen_height/2, self.screen_width/3, self.screen_height/2, 20, "assets\\images\\capitol-one.png", BLACK)
-        #self.compare.renderToScreen(self.screen, self.screen_width/2, self.screen_height/2, self.screen_width/3, self.screen_height/2, 20, "assets\\images\\capitol-one.png", BLACK)
+        self.id.renderToScreen()
         
+
         timer_font = pygame.font.Font("assets/fonts/CONSOLA.TTF", 80)
-        timer_text = timer_font.render(str(self.timer + "/" + self.max_time), True, (0, 0, 0))
+        timer_text = timer_font.render(str(self.timer) + "/" + str(self.max_time), True, (0, 0, 0))
         self.screen.blit(timer_text, (self.screen_width - 100, 10))
 
         self.check_dialogue()
