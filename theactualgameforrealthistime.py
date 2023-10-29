@@ -61,9 +61,9 @@ class ThePartWhereWeScamPoorPeople:
             dialogue_surface = self.font.render(dialogue, True, WHITE)
             y_position = self.screen_height/2 - 100 - (self.max_dialogues_on_screen - idx) * self.font.get_height()
             if dialogue.startswith("You:"):
-                self.screen.blit(dialogue_surface, (40, y_position))
+                self.screen.blit(dialogue_surface, (self.screen_width/3 - 20, y_position))
             else:
-                self.screen.blit(dialogue_surface, (0, y_position))
+                self.screen.blit(dialogue_surface, (self.screen_width/3 - 60, y_position))
 
     def new_character(self, character_image, character_info, char_prov_docs):
         self.character_image = pygame.image.load(character_image)
@@ -83,9 +83,12 @@ class ThePartWhereWeScamPoorPeople:
         desk = pygame.transform.scale(desk, (int(self.screen_width*2/3), int(self.screen_height)))
         self.screen.blit(desk, (int(self.screen_width/3), 0))
 
-        # Write dialogue
+        # draw a rectangle for the dialogue box, which goes on top of the desk
+        pygame.draw.rect(self.screen, GRAY, (self.screen_width/3, 0, self.screen_width/4, self.screen_height/2))
+
+        # Write dialogue on top of dialogue box
         dialogue = self.font.render("", True, WHITE)
-        self.screen.blit(dialogue, (30, self.screen_height/4))
+        self.screen.blit(dialogue, (self.screen_width/3 + 20, 20))
 
         # Left bottom section for API account info
         self.id.renderToScreen(self.screen, 0, self.screen_height/2, self.screen_width/3, self.screen_height/2, 20, "assets\\images\\capitol-one.png", BLACK)
