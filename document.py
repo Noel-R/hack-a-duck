@@ -35,7 +35,8 @@ class Document:
         self.font=font
         self.dims=pygame.Rect(x,y,w,h)
         self.gap=self.h/10
-        jsonDict.pop("developerId")
+        if "developerId" in jsonDict:
+                    jsonDict.pop("developerId")
         self.genButtons()
         
         i = 0        

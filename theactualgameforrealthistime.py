@@ -77,8 +77,8 @@ class ThePartWhereWeScamPoorPeople:
     def new_character(self, character_image, character_info, char_prov_docs):
         self.character_image = pygame.image.load(character_image)
         self.id = Id(apiGenData(),self.screen, 0, self.screen_height/2, self.screen_width/3, self.screen_height/2, 20, "assets\\images\\capitol-one.png", BLACK,toBeApproved=True)
-        self.onFileId=copy(self.id)
-        self.onFileId.x=self.screen_width/2
+        
+        self.onFileId=Id(self.id.jsonDict,self.screen, self.screen_width/2, self.screen_height/2, self.screen_width/3, self.screen_height/2, 20, "assets\\images\\capitol-one.png", BLACK,toBeApproved=True)
         if not self.id.approved:
             self.id.makeInvalid("DOCUMENT_MISMATCH")
         #self.char_prov_docs = Document(char_prov_docs, self.screen)
