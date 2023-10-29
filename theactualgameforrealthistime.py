@@ -24,12 +24,16 @@ class ThePartWhereWeScamPoorPeople:
         self.screen_height = screen_height
         self.font = pygame.font.Font("assets/fonts/CONSOLA.TTF", 20)
         self.dialogues = []
+        self.line_num = 0
+        with open("assets/example-dialogue.txt") as f:
+            self.total_dialogues = f.readlines()
         self.last_dialogue_time = time.time()
-        self.dialogue_interval = 3  # seconds between dialogues
-        self.max_dialogues_on_screen = 4  # adjust as needed
+        self.dialogue_interval = 2
+        self.max_dialogues_on_screen = 10 
 
     def add_dialogue(self, dialogue):
         self.dialogues.append(dialogue)
+        self.line_num += 1
         # Trim dialogues list if it's too long
         while len(self.dialogues) > self.max_dialogues_on_screen:
             self.dialogues.pop(0)
@@ -40,18 +44,13 @@ class ThePartWhereWeScamPoorPeople:
         #self.char_prov_docs = Document(char_prov_docs, self.screen)
         #self.recent_transactions = Document(dbContext.getRecentTransactions(), self.screen)
 
-    def get_guidebook(self):
-        with open("assets/guidebook.json") as json_file:
-            guide_info = json.load(json_file)
-        self.guidebook = Document(guide_info, self.screen)
-
     def game_screen(self):
         self.screen.fill(BLACK)
 
         # Left top section for character image and dialogue
         self.screen.blit(pygame.transform.scale(self.character_image, (int(self.screen_width/3), int(self.screen_height/2))), (0, 0))
 
-        dialogue = self.font.render("Character Dialogue Here", True, WHITE)
+        dialogue = self.font.render("", True, WHITE)
         self.screen.blit(dialogue, (30, self.screen_height/4))
 
         # Left bottom section for API account info
@@ -65,13 +64,28 @@ class ThePartWhereWeScamPoorPeople:
         # Check if it's time for a new dialogue
         current_time = time.time()
         if current_time - self.last_dialogue_time > self.dialogue_interval:
-            self.add_dialogue("Random dialogue")  # replace with your dialogue logic
+            self.add_dialogue(self.total_dialogues[self.line_num])
             self.last_dialogue_time = current_time
 
         # Render dialogues
         for idx, dialogue in enumerate(self.dialogues[-self.max_dialogues_on_screen:]):
             dialogue_surface = self.font.render(dialogue, True, WHITE)
-            y_position = self.screen_height/2 - (self.max_dialogues_on_screen - idx) * self.font.get_height()
-            self.screen.blit(dialogue_surface, (0, y_position))
+            y_position = self.screen_height/2 - 100 - (self.max_dialogues_on_screen - idx) * self.font.get_height()
+            if dialogue.startswith("You:"):
+                self.screen.blit(dialogue_surface, (40, y_position))
+            else:
+                self.screen.blit(dialogue_surface, (0, y_position))
 
         pygame.display.flip()
+
+    def loop(self):
+        running = True
+        while running:
+            self.game_screen()
+            for event in pygame.event.get():
+                if event.type == QUIT:
+                    running = False
+                elif event.type == KEYDOWN:
+                    if event.key == K_RETURN:
+                        running = False
+        pygame.quit()

@@ -2,7 +2,7 @@ import pygame
 from pygame.locals import QUIT, KEYDOWN, K_RETURN
 import json
 import time
-from button import Button
+from Button import Button
 from document import Document
 from theactualgameforrealthistime import ThePartWhereWeScamPoorPeople
 
@@ -12,9 +12,44 @@ pygame.init()
 # global state
 global GAME_STATE
 GAME_STATE = 'MAIN_MENU'
+
 # Constants
 SCREEN_WIDTH = 1400
 SCREEN_HEIGHT = 700
+
+class GuideBook:
+    clickable = []
+    bg = None
+    surface = None
+    backButton = None
+    def __init__(self, surface):
+        self.surface = surface
+        self.font = pygame.font.Font("assets/fonts/CONSOLA.TTF", 15)
+        self.bg = pygame.image.load("assets\\images\\ccc-guidebook-bckg.png")
+        self.bg = pygame.transform.scale(self.bg, (self.surface.get_width(), self.surface.get_height()))
+        self.backButton = Button(surface, surface.get_width() / 2 - 100, surface.get_height() - 100, 200, 100, "Back", (255, 255, 255), "assets\\images\\button\\menubutton1.png", self.back)
+
+    def back(self):
+        global GAME_STATE
+        GAME_STATE = 'MAIN_MENU'
+
+    def text(self, text, x, y):
+        self.surface.blit(self.font.render(text, True, (15, 15, 15)), (x, y))
+
+    def loop(self):
+        self.surface.blit(self.bg, (0, 0))
+        self.text("Welcome to Credit Check Chronicles!", self.surface.get_width()/2 - 180, self.surface.get_height()/4 - 30)
+        self.text("As an officer at Capital One, your role is to approve or deny credit loans based on credit scores, risk scores, and transaction histories.", 85, self.surface.get_height()/4)
+        self.text("To play:", 85, self.surface.get_height()/4 + 30)
+        self.text("Each character will approach with a story or dialogue. Use this information along with their provided documents to make informed decisions.", 85, self.surface.get_height()/4 + 60)
+        self.text("At the end of each day, you'll be presented with statistics on your performance, decisions, and any potential consequences of your actions.", 85, self.surface.get_height()/4 + 90)
+        self.text("If you make too many wrong decisions, the game ends. Aim to make accurate decisions and maintain your integrity for the best outcome.", 85, self.surface.get_height()/4 + 120)
+        self.text("Example discrepancy is if the character tells you their email is haha@gmail.com but it's actually hahaha@gmail.com", 85, self.surface.get_height()/4 + 150)
+        self.backButton.render()
+        self.backButton.handleClick()
+        for button in self.clickable:
+            button.render()
+            button.handleClick()
 
 class MainMenu:
     clickable = []
@@ -29,7 +64,10 @@ class MainMenu:
     def startGame(self):
         global GAME_STATE
         GAME_STATE = 'GAME_SCREEN'
-        print("Starting game")
+
+    def openGuidebook(self):
+        global GAME_STATE
+        GAME_STATE = 'GUIDEBOOK'
 
     def loop(self):
         self.surface.blit(self.bg, (0, 0))
@@ -54,7 +92,7 @@ class MainMenu:
         buttonX = (self.surface.get_width() / 2) - buttonWidth / 2
         buttonY = surface.get_height() * 0.4
         self.clickable.append(Button(surface, buttonX, buttonY, buttonWidth, buttonHeight, "Start Game", (255, 255, 255), "assets\\images\\button\\menuButton1.png", self.startGame))
-        self.clickable.append(Button(surface, buttonX, buttonY + buttonHeight + margin, buttonWidth, buttonHeight, "PLACEHOLDER", (255, 255, 255), "assets\\images\\button\\menuButton1.png", self.startGame))
+        self.clickable.append(Button(surface, buttonX, buttonY + buttonHeight + margin, buttonWidth, buttonHeight, "Guidebook", (255, 255, 255), "assets\\images\\button\\menuButton1.png", self.openGuidebook))
 
 class Game:
     clickables=[]
@@ -70,8 +108,12 @@ class Game:
         with open("assets/character_info.json") as json_file:
             char_info = json.load(json_file)
         game.new_character("assets/images/upper-man.png", char_info, "assets/character_prov_docs.json")
-        game.get_guidebook()
         game.game_screen()
+        game.loop()
+
+    def guidebook(self):
+        guidebook = GuideBook(self.screen)
+        guidebook.loop()
 
     def run(self):
         running = True
@@ -85,12 +127,13 @@ class Game:
                 self.game_screen()
             if GAME_STATE == 'MAIN_MENU':
                 self.menu.loop()
+            if GAME_STATE == 'GUIDEBOOK':
+                self.guidebook()
 
             self.clock.tick(60)
             pygame.display.update()
         
         pygame.quit()
-
 
 if __name__ == "__main__":
     game = Game()
