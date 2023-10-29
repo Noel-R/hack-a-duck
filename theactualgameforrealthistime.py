@@ -1,3 +1,4 @@
+#actualgame.py
 from copy import copy
 import pygame
 from pygame.locals import *
@@ -76,11 +77,11 @@ class ThePartWhereWeScamPoorPeople:
 
     def new_character(self, character_image, character_info, char_prov_docs):
         self.character_image = pygame.image.load(character_image)
-        self.id = Id(apiGenData(),self.screen, 0, self.screen_height/2, self.screen_width/3, self.screen_height/2, 20, "assets\\images\\capitol-one.png", BLACK,toBeApproved=True)
+        self.id = Id(apiGenData(),self.screen, 0, self.screen_height/2, self.screen_width/3, self.screen_height/2, 20, "assets\\images\\capitol-one.png", BLACK,toBeApproved=False)
         
-        self.onFileId=Id(self.id.jsonDict,self.screen, self.screen_width/2, self.screen_height/2, self.screen_width/3, self.screen_height/2, 20, "assets\\images\\capitol-one.png", BLACK,toBeApproved=True,hasButtons=False)
+        self.onFileId=Id(copy(self.id.jsonDict),self.screen, self.screen_width/2, self.screen_height/2, self.screen_width/3, self.screen_height/2, 20, "assets\\images\\capitol-one.png", BLACK,toBeApproved=True,hasButtons=False)
         if not self.id.approved:
-            self.id.makeInvalid("DOCUMENT_MISMATCH")
+            self.onFileId.makeInvalid("DOCUMENT_MISMATCH")
         #self.char_prov_docs = Document(char_prov_docs, self.screen)
         #self.recent_transactions = Document(dbContext.getRecentTransactions(), self.screen)
 

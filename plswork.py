@@ -1,3 +1,4 @@
+#plswork.py
 import json
 import requests
 
@@ -15,6 +16,11 @@ def apiGenData():
 
     response = requests.post("https://sandbox.capitalone.co.uk/developer-services-platform-pr/api/data/accounts/create", headers=headers, data=payload).text
     d=json.loads(response)
-    return d["Accounts"][0]
+    jsonD=d["Accounts"][0]
+    if "developerId" in jsonD:
+        jsonD.pop("developerId")
+    if "livebalance" in jsonD:
+        jsonD.pop("livebalance")
+    return jsonD
 
 print(apiGenData())

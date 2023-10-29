@@ -1,3 +1,4 @@
+#document.py
 import json
 import pygame
 from Button import Button
@@ -36,8 +37,7 @@ class Document:
         self.font=font
         self.dims=pygame.Rect(x,y,w,h)
         self.gap=self.h/10
-        if "developerId" in jsonDict:
-                    jsonDict.pop("developerId")
+   
         if hasButtons:
             self.genButtons()
 
@@ -98,16 +98,22 @@ class Document:
 class Id(Document):    
     def __init__(self, jsonDict, surface, x, y, w, h, font_size, img, font_color=(0, 0, 0), bgPath="assets\images\documents\documents.jpg", font="assets/fonts/CONSOLA.TTF",toBeApproved=True,hasButtons=True):
         super().__init__(jsonDict, surface, x, y, w, h, font_size, img, font_color, bgPath, font,hasButtons)
+        self.jsonDict=jsonDict
+   
         invalidReason=None
-        self.approved = False
+        self.approved = toBeApproved
     def makeInvalid(self,reason):
         self.invalidReason=reason
         match reason:
             case "DOCUMENT_MISMATCH":
                 randKey=self.buttons[random.randint(0,9)].data[0]
                 secondJsonDict=plswork.apiGenData()
+                print(randKey,self.jsonDict[randKey])
+                print(randKey,secondJsonDict[randKey])
                 self.jsonDict[randKey]=secondJsonDict[randKey]
                 self.updateButtons()
+                print(self.jsonDict)
+
 
     def updateButtons(self):
         i=0
@@ -130,6 +136,12 @@ class Id(Document):
         self.approved = True
         global GAME_STATE
         GAME_STATE = 'APPROVED_SCREEN'
+        if self.approved:
+            sound=pygame.mixer.Sound("assets\\music\\ding.mp3")
+            sound.play()
+            GAME_STATE="MAIN_MENU"
+        
+
     
     def deny(self):
         self.approved = False
