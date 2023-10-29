@@ -2,6 +2,7 @@ import pygame
 from pygame.locals import *
 import json
 import time
+from Approval import AnimationCanvas
 from document import Document
 from plswork import apiGenData
 from Button import Button
