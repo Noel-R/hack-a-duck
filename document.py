@@ -9,7 +9,7 @@ class Document:
     def press(self,button):
         print(button.data)
         button.data[2]=not button.data[2]
-    def __init__(self,jsonDict,renderSurface,bgPath="assets\\images\\documents\\documents.jpg"):
+    def __init__(self,jsonDict,renderSurface,bgPath="assets\\images\\ccc-id-card.png"):
         #converts json dictionary items to class attributes
         self.jsonDict=jsonDict
         self.surface=renderSurface
@@ -24,25 +24,25 @@ class Document:
         bg=pygame.transform.scale(bg,(dims[2],dims[3]))
         surface.blit(bg,dims)
         font=pygame.font.Font(font,font_size)
-        gap=h/len(self.jsonDict)-font_size
-        textDims=[x,y]
+        gap=h/len(self.jsonDict)-25
+        textDims=[x+50,y+30]
         #insert picture here
         count=0
         for k,v in self.jsonDict.items():
             text=k+": "+str(v)           
             text=font.render(text,True,font_color,None)
             textSize=(w/2,h/len(self.jsonDict)/2)
-            if len(self.colliders)<len(self.jsonDict):
-                b=Button(surface,textDims[0],textDims[1],textSize[0],textSize[1],"",(0,0,0),None,self.press,doRender=False,data=[k,v,False])
-                b.lcArgs=b;
-                self.colliders.append(b)
+            # if len(self.colliders)<len(self.jsonDict):
+            #     b=Button(surface,textDims[0],textDims[1],textSize[0],textSize[1],"",(0,0,0),None,self.press,doRender=False,data=[k,v,False])
+            #     b.lcArgs=b;
+            #     self.colliders.append(b)
             #text=pygame.transform.scale(text,textSize)
             surface.blit(text,textDims)
             
             if not img==None:
                 logo=pygame.image.load(img)
                 logo = pygame.transform.scale(logo, (w/2,h/2))
-                surface.blit(logo,(x+w/2,y))
+                surface.blit(logo,(x+w/2,y+15))
         
             textDims[1]+=gap
             count+=1
