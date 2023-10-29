@@ -81,6 +81,8 @@ class MainMenu:
             button.handleClick()
 
     def __init__(self, surface):
+        mus=pygame.mixer_music.load("assets\\music\\epic.mp3")
+        pygame.mixer_music.play(-1)
         self.surface = surface
         self.logo = pygame.image.load("assets\\images\\main menu\\logo.png")
         self.logoDims = [self.surface.get_width() / 4, self.surface.get_height() / 4]
