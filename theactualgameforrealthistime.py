@@ -3,7 +3,6 @@ from pygame.locals import QUIT, KEYDOWN, K_RETURN
 import json
 import time
 from document import Document
-from Database import DB
 
 # Colors
 WHITE = (255, 255, 255)
@@ -14,8 +13,6 @@ GRAY = (120, 120, 120) # Neutral gray
 BROWN = (103, 58, 43)  # Earthy brown for potential other elements
 TAN = (211, 186, 141)  # Light beige/tan for backgrounds or text
 DARK_GREEN = (32, 50, 36)  # Darker green, potential for other UI elements
-
-dbContext = DB("./Game.db")
 
 class ThePartWhereWeScamPoorPeople:
     def __init__(self, screen, screen_width, screen_height):
