@@ -16,5 +16,3 @@ def apiGenData():
     response = requests.post("https://sandbox.capitalone.co.uk/developer-services-platform-pr/api/data/accounts/create", headers=headers, data=payload).text
     d=json.loads(response)
     return d["Accounts"][0]
-
-print(apiGenData())

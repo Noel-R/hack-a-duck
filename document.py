@@ -18,7 +18,6 @@ class Document:
             
     def press(self,button):
         self.toggleButtons(button)
-        print(f"Button Data: {button.getData()}\n")
         
     def __init__(self,jsonDict,surface,x,y,w,h,font_size,img,font_color=(255,255,255),bgPath="assets\\images\\documents\\documents.jpg",font="assets/fonts/CONSOLA.TTF",hasButtons=True):
         #converts json dictionary items to class attributes
@@ -51,7 +50,6 @@ class Document:
                 b.lcArgs=b
                 buttonDims.y+=self.gap
                 self.buttons.append(b)
-            print("s;",self.dims)
             self.updateButtons()
 
     def renderToScreen(self):
