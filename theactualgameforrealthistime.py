@@ -1,7 +1,9 @@
+from copy import copy
 import pygame
 from pygame.locals import *
 import json
 import time
+import random
 from document import Document, Id
 from plswork import apiGenData
 from Button import Button
@@ -18,6 +20,7 @@ DARK_GREEN = (32, 50, 36)  # Darker green, potential for other UI elements
 
 class ThePartWhereWeScamPoorPeople:
     clickable = []
+
     def __init__(self, screen, screen_width, screen_height):
         self.screen = screen
         self.screen_width = screen_width
@@ -73,7 +76,11 @@ class ThePartWhereWeScamPoorPeople:
 
     def new_character(self, character_image, character_info, char_prov_docs):
         self.character_image = pygame.image.load(character_image)
-        self.id = Id(apiGenData(),self.screen, 0, self.screen_height/2, self.screen_width/3, self.screen_height/2, 20, "assets\\images\\capitol-one.png", BLACK)
+        self.id = Id(apiGenData(),self.screen, 0, self.screen_height/2, self.screen_width/3, self.screen_height/2, 20, "assets\\images\\capitol-one.png", BLACK,toBeApproved=True)
+        self.onFileId=copy(self.id)
+        self.onFileId.x=self.screen_width/2
+        if not self.id.approved:
+            self.id.makeInvalid("DOCUMENT_MISMATCH")
         #self.char_prov_docs = Document(char_prov_docs, self.screen)
         #self.recent_transactions = Document(dbContext.getRecentTransactions(), self.screen)
 
@@ -97,6 +104,7 @@ class ThePartWhereWeScamPoorPeople:
 
         # Left bottom section for API account info
         self.id.renderToScreen()
+        self.onFileId.renderToScreen()
         
 
         timer_font = pygame.font.Font("assets/fonts/CONSOLA.TTF", 80)

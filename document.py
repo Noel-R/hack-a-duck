@@ -3,6 +3,7 @@ import pygame
 from Button import Button
 import plswork
 import copy
+import random
 class Document:
     jsonDict={}
     renderSurface=None
@@ -96,21 +97,35 @@ class Document:
             count+=1
 
 class Id(Document):    
-    def __init__(self, jsonDict, surface, x, y, w, h, font_size, img, font_color=(255, 255, 255), bgPath="assets\images\documents\documents.jpg", font="assets/fonts/CONSOLA.TTF"):
+    def __init__(self, jsonDict, surface, x, y, w, h, font_size, img, font_color=(0, 0, 0), bgPath="assets\images\documents\documents.jpg", font="assets/fonts/CONSOLA.TTF",toBeApproved=True):
         super().__init__(jsonDict, surface, x, y, w, h, font_size, img, font_color, bgPath, font)
+        invalidReason=None
         self.approved = False
-    
-    async def regen(self):
-        self.buttons = []
-        self.jsonDict = await plswork.apiGenData()
-        self.genButtons()
-        i = 0        
+    def makeInvalid(self,reason):
+        self.invalidReason=reason
+        match reason:
+            case "DOCUMENT_MISMATCH":
+                randKey=self.buttons[random.randint(0,9)].data[0]
+                secondJsonDict=plswork.apiGenData()
+                self.jsonDict[randKey]=secondJsonDict[randKey]
+                self.updateButtons()
+
+    def updateButtons(self):
+        i=0
         for k,v in self.jsonDict.items():
             if i <= 9:
                 self.buttons[i].data=[k,v, False]
                 i += 1
             else:
                 return
+
+    async def regen(self):
+        self.buttons = []
+        self.jsonDict = await plswork.apiGenData()
+        self.genButtons()
+        self.updateButtons()
+        i = 0        
+
     
     def approve(self):
         self.approved = True

@@ -90,6 +90,7 @@ class MainMenu:
         self.logoY = -self.logoDims[1]
         self.logoX = self.surface.get_width() / 2 - self.logoDims[0] / 2
         self.bg = pygame.image.load("assets\\images\\main-menu.png")
+
         buttonWidth = surface.get_width() / 3
         buttonHeight = surface.get_height() / 8
         margin = buttonHeight / 2
