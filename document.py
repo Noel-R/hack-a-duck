@@ -31,7 +31,6 @@ class Document:
             text=font.render(text,True,font_color,None)
             textSize=(w/2,h/len(self.jsonDict)/2)
             colliders.append(Button(surface,textDims[0],textDims[1],textSize[0],textSize[1],"",(0,0,0),None,self.press,doRender=False,data=(k,v)))
-            print(y)
             #text=pygame.transform.scale(text,textSize)
             surface.blit(text,textDims)
             if not img==None:

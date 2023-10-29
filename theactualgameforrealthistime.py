@@ -1,5 +1,5 @@
 import pygame
-from pygame.locals import QUIT, KEYDOWN, K_RETURN
+from pygame.locals import *
 import json
 import time
 from document import Document
@@ -15,8 +15,6 @@ BROWN = (103, 58, 43)  # Earthy brown for potential other elements
 TAN = (211, 186, 141)  # Light beige/tan for backgrounds or text
 DARK_GREEN = (32, 50, 36)  # Darker green, potential for other UI elements
 
-dbContext = DB("./Game.db")
-
 class ThePartWhereWeScamPoorPeople:
     def __init__(self, screen, screen_width, screen_height):
         self.screen = screen
@@ -28,7 +26,7 @@ class ThePartWhereWeScamPoorPeople:
         with open("assets/example-dialogue.txt") as f:
             self.total_dialogues = f.readlines()
         self.last_dialogue_time = time.time()
-        self.dialogue_interval = 2
+        self.dialogue_interval = 1
         self.max_dialogues_on_screen = 10 
 
     def add_dialogue(self, dialogue):
@@ -64,7 +62,7 @@ class ThePartWhereWeScamPoorPeople:
         # Check if it's time for a new dialogue
         current_time = time.time()
         if current_time - self.last_dialogue_time > self.dialogue_interval:
-            self.add_dialogue(self.total_dialogues[self.line_num])
+            if not self.line_num >= len(self.total_dialogues): self.add_dialogue(self.total_dialogues[self.line_num])
             self.last_dialogue_time = current_time
 
         # Render dialogues
@@ -88,4 +86,5 @@ class ThePartWhereWeScamPoorPeople:
                 elif event.type == KEYDOWN:
                     if event.key == K_RETURN:
                         running = False
+
         pygame.quit()

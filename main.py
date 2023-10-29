@@ -1,5 +1,5 @@
 import pygame
-from pygame.locals import QUIT, KEYDOWN, K_RETURN
+from pygame.locals import *
 import json
 import time
 from Button import Button
