@@ -99,6 +99,7 @@ class MainMenu:
 class Game:
     clickables=[]
     menu=None
+    game = None
     def __init__(self):
         self.screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
         pygame.display.set_caption('Credit Check Chronicles')
@@ -106,14 +107,31 @@ class Game:
         self.menu=MainMenu(self.screen)
 
     def game_screen(self):
-        game = ThePartWhereWeScamPoorPeople(self.screen, SCREEN_WIDTH, SCREEN_HEIGHT)
+        self.game = ThePartWhereWeScamPoorPeople(self.screen, SCREEN_WIDTH, SCREEN_HEIGHT)
         with open("assets/character_info.json") as json_file:
             char_info = json.load(json_file)
-        game.new_character("assets/images/upper-man.png", char_info, "assets/character_prov_docs.json")
+        self.game.new_character("assets/images/upper-man.png", char_info, "assets/character_prov_docs.json")
         
-        game.game_screen()
+        self.game.game_screen()
         
-        game.loop()
+        self.game.loop()
+
+    def approved_screen(self):
+        timer = 0
+        self.clock.tick(60)
+        while True:
+            self.screen.fill((255,0,0))
+            for event in pygame.event.get():
+                if event.type == QUIT:
+                    pygame.quit()
+                    exit()
+                elif event.type == self.TICK_SECOND:
+                    timer += 1
+                    if timer == 5:
+                        global GAME_STATE
+                        GAME_STATE = 'GAME_SCREEN'
+            
+            pygame.display.update()
 
     def guidebook(self):
         guidebook = GuideBook(self.screen)
@@ -129,6 +147,10 @@ class Game:
 
             if GAME_STATE == 'GAME_SCREEN':
                 self.game_screen()
+            if GAME_STATE == 'APPROVED_SCREEN':
+                self.approved_screen()
+            if GAME_STATE == 'DENIED_SCREEN':
+                self.denied_screen()
             if GAME_STATE == 'MAIN_MENU':
                 self.menu.loop()
             if GAME_STATE == 'GUIDEBOOK':

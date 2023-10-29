@@ -61,6 +61,16 @@ class Document:
         self.surface.blit(bg,self.dims)
         font=pygame.font.Font(self.font,self.font_size)
    
+        for button in self.buttons:
+            if button.data[2]:
+                button.background = (255, 0, 0)  # red
+            else:
+                button.background = (0, 255, 0)  # green
+
+            button.docrender()
+            button.handleClick()
+   
+   
         textDims=[self.x,self.y]
         #insert picture here
         count=0
@@ -75,6 +85,8 @@ class Document:
             text=pygame.transform.scale(text,textSize)
             self.surface.blit(text,textDims)
             
+            
+            
             if not self.img==None:
                 logo=pygame.image.load(self.img)
                 logo = pygame.transform.scale(logo, (self.w/2,self.h/2))
@@ -83,8 +95,54 @@ class Document:
             textDims[1]+=self.gap
             count+=1
 
-        for b in self.buttons:
-            #b.debugRender()
-            b.handleClick()
-
+class Id(Document):    
+    def __init__(self, jsonDict, surface, x, y, w, h, font_size, img, font_color=(255, 255, 255), bgPath="assets\images\documents\documents.jpg", font="assets/fonts/CONSOLA.TTF"):
+        super().__init__(jsonDict, surface, x, y, w, h, font_size, img, font_color, bgPath, font)
+        self.approved = False
     
+    async def regen(self):
+        self.buttons = []
+        self.jsonDict = await plswork.apiGenData()
+        self.genButtons()
+        i = 0        
+        for k,v in self.jsonDict.items():
+            if i <= 9:
+                self.buttons[i].data=[k,v, False]
+                i += 1
+            else:
+                return
+    
+    def approve(self):
+        self.approved = True
+        global GAME_STATE
+        GAME_STATE = 'APPROVED_SCREEN'
+    
+    def deny(self):
+        self.approved = False
+        
+    def renderToScreen(self):
+        #renders id to screen
+        
+        textDims=[self.x,self.y]
+        
+        bg=pygame.image.load(self.bgPath)
+        bg=pygame.transform.scale(bg,(self.dims[2],self.dims[3]))
+        self.surface.blit(bg,self.dims)
+        font=pygame.font.Font(self.font,self.font_size)
+   
+        for button in self.buttons:
+            if button.data[2]:
+                button.background = (255, 0, 0)
+            else:
+                button.background = (0, 255, 0)
+            
+            button.docrender()
+            text=button.data[0]+": "+button.data[1]           
+            text=font.render(text,True,self.font_color,None)
+            textSize=(self.w/2,self.h/len(self.jsonDict)/2)
+
+            text=pygame.transform.scale(text,textSize)
+            self.surface.blit(text,textDims)
+            textDims[1]+=self.gap
+            
+            button.handleClick()

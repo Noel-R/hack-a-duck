@@ -2,7 +2,7 @@ import pygame
 from pygame.locals import *
 import json
 import time
-from document import Document
+from document import Document, Id
 from plswork import apiGenData
 from Button import Button
 
@@ -34,12 +34,18 @@ class ThePartWhereWeScamPoorPeople:
         self.TICK_SECOND = pygame.USEREVENT + 1
         pygame.time.set_timer(self.TICK_SECOND, 1000)
 
+    def handle_approve(self):
+        self.id.approve()
+        
+    def handle_deny(self):
+        self.id.deny()
+
     def add_approve_button(self):
-        approve_button = Button(self.screen, self.screen_width - 200, self.screen_height - 100, 100, 100, "", WHITE, "assets\\images\\button\\approve.png")
+        approve_button = Button(self.screen, self.screen_width - 200, self.screen_height - 100, 100, 100, "", WHITE, "assets\\images\\button\\approve.png",lcArgs=None, leftClickFunc=self.handle_approve)
         self.clickable.append(approve_button)
 
     def add_deny_button(self):
-        deny_button = Button(self.screen, self.screen_width - 100, self.screen_height - 100, 100, 100, "", WHITE, "assets\\images\\button\\deny.png")
+        deny_button = Button(self.screen, self.screen_width - 100, self.screen_height - 100, 100, 100, "", WHITE, "assets\\images\\button\\deny.png", lcArgs=None, leftClickFunc=self.handle_deny)
         self.clickable.append(deny_button)
 
     def add_dialogue(self, dialogue):
@@ -67,7 +73,7 @@ class ThePartWhereWeScamPoorPeople:
 
     def new_character(self, character_image, character_info, char_prov_docs):
         self.character_image = pygame.image.load(character_image)
-        self.id = Document(apiGenData(),self.screen, 0, self.screen_height/2, self.screen_width/3, self.screen_height/2, 20, "assets\\images\\capitol-one.png", BLACK)
+        self.id = Id(apiGenData(),self.screen, 0, self.screen_height/2, self.screen_width/3, self.screen_height/2, 20, "assets\\images\\capitol-one.png", BLACK)
         #self.char_prov_docs = Document(char_prov_docs, self.screen)
         #self.recent_transactions = Document(dbContext.getRecentTransactions(), self.screen)
 
@@ -113,6 +119,8 @@ class ThePartWhereWeScamPoorPeople:
         running = True
         while running:
             self.game_screen()
+            
+            
             for event in pygame.event.get():
                 if event.type == QUIT:
                     running = False
