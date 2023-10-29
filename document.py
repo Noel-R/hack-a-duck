@@ -20,13 +20,14 @@ class Document:
         self.toggleButtons(button)
         print(f"Button Data: {button.getData()}\n")
         
-    def __init__(self,jsonDict,surface,x,y,w,h,font_size,img,font_color=(255,255,255),bgPath="assets\\images\\documents\\documents.jpg",font="assets/fonts/CONSOLA.TTF"):
+    def __init__(self,jsonDict,surface,x,y,w,h,font_size,img,font_color=(255,255,255),bgPath="assets\\images\\documents\\documents.jpg",font="assets/fonts/CONSOLA.TTF",hasButtons=True):
         #converts json dictionary items to class attributes
         self.jsonDict=jsonDict
         self.surface=surface
         self.bgPath=bgPath
         self.x=x
         self.y=y
+        self.hasButtons=hasButtons
         self.h=h
         self.w=w
         self.font_size=font_size
@@ -37,24 +38,21 @@ class Document:
         self.gap=self.h/10
         if "developerId" in jsonDict:
                     jsonDict.pop("developerId")
-        self.genButtons()
-        
-        i = 0        
-        for k,v in jsonDict.items():
-            if i <= 9:
-                self.buttons[i].data=[k,v, False]
-                i += 1
-            else:
-                return
+        if hasButtons:
+            self.genButtons()
+
+
 
     def genButtons(self):
-        buttonDims=copy.copy(self.dims)
-        for i in range(10):
-            b=Button(self.surface,buttonDims.x,buttonDims.y,buttonDims.w,10,leftClickFunc=self.press,data=[None,None,False], )
-            b.lcArgs=b
-            buttonDims.y+=self.gap
-            self.buttons.append(b)
-        print("s;",self.dims)
+        if self.hasButtons:
+            buttonDims=copy.copy(self.dims)
+            for i in range(10):
+                b=Button(self.surface,buttonDims.x,buttonDims.y,buttonDims.w,10,leftClickFunc=self.press,data=[None,None,False], )
+                b.lcArgs=b
+                buttonDims.y+=self.gap
+                self.buttons.append(b)
+            print("s;",self.dims)
+            self.updateButtons()
 
     def renderToScreen(self):
         #renders id to screen
@@ -98,8 +96,8 @@ class Document:
             count+=1
 
 class Id(Document):    
-    def __init__(self, jsonDict, surface, x, y, w, h, font_size, img, font_color=(0, 0, 0), bgPath="assets\images\documents\documents.jpg", font="assets/fonts/CONSOLA.TTF",toBeApproved=True):
-        super().__init__(jsonDict, surface, x, y, w, h, font_size, img, font_color, bgPath, font)
+    def __init__(self, jsonDict, surface, x, y, w, h, font_size, img, font_color=(0, 0, 0), bgPath="assets\images\documents\documents.jpg", font="assets/fonts/CONSOLA.TTF",toBeApproved=True,hasButtons=True):
+        super().__init__(jsonDict, surface, x, y, w, h, font_size, img, font_color, bgPath, font,hasButtons)
         invalidReason=None
         self.approved = False
     def makeInvalid(self,reason):
@@ -153,7 +151,7 @@ class Id(Document):
                 button.background = (0, 255, 0)
             
             button.docrender()
-            text=button.data[0]+": "+button.data[1]           
+            text=str(button.data[0])+": "+str(button.data[1])         
             text=font.render(text,True,self.font_color,None)
             textSize=(self.w/2,self.h/len(self.jsonDict)/2)
 
