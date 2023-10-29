@@ -7,4 +7,6 @@ You: Please state your address.
 Bruce: 1007 Mountain Drive, Gotham.
 You: Please state your email address.
 Bruce: brucenot@bat.man
-Bruce: Please man, I really need to build my credit. I'm trying to buy a new car.
+Bruce: Please man, I really need to 
+build my credit. 
+I'm trying to buy a new car.

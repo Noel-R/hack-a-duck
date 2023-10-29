@@ -1,0 +1,255 @@
+{
+    "player": {
+        "salary": 0,
+        "balance": 0
+    },
+    "characters": [
+        {
+            "id": "88268546",
+            "email": "Tyree.Barton@sendemails.com",
+            "creditScore": "527",
+            "riskScore": "53",
+            "creditLimit": "0.0",
+            "transactions": [],
+            "approved": false
+        },
+        {
+            "id": "80643541",
+            "email": "Britt.Schinner@sendemails.com",
+            "creditScore": "643",
+            "riskScore": "23",
+            "creditLimit": "0.0",
+            "transactions": [],
+            "approved": false
+        },
+        {
+            "id": "30768814",
+            "email": "Thuy.Weber@booglemail.co.uk",
+            "creditScore": "186",
+            "riskScore": "61",
+            "creditLimit": "221.0",
+            "transactions": [],
+            "approved": false
+        },
+        {
+            "id": "85971837",
+            "email": "Catarina.Spencer@booglemail.co.uk",
+            "creditScore": "530",
+            "riskScore": "20",
+            "creditLimit": "0.0",
+            "transactions": [],
+            "approved": false
+        },
+        {
+            "id": "49817839",
+            "email": "Simone.Kertzmann@sendemails.com",
+            "creditScore": "549",
+            "riskScore": "77",
+            "creditLimit": "237.0",
+            "transactions": [],
+            "approved": false
+        },
+        {
+            "id": "60794095",
+            "email": "Kattie.Reichel@freeemailservice.com",
+            "creditScore": "133",
+            "riskScore": "9",
+            "creditLimit": "0.0",
+            "transactions": [],
+            "approved": false
+        },
+        {
+            "id": "92449505",
+            "email": "Kim.Schneider@sendemails.com",
+            "creditScore": "433",
+            "riskScore": "46",
+            "creditLimit": "0.0",
+            "transactions": [],
+            "approved": false
+        },
+        {
+            "id": "62237789",
+            "email": "Gregg.Huel@realemail.com",
+            "creditScore": "54",
+            "riskScore": "74",
+            "creditLimit": "0.0",
+            "transactions": [],
+            "approved": false
+        },
+        {
+            "id": "45237510",
+            "email": "Louis.Jerde@freeemailservice.com",
+            "creditScore": "114",
+            "riskScore": "10",
+            "creditLimit": "0.0",
+            "transactions": [],
+            "approved": false
+        },
+        {
+            "id": "10390182",
+            "email": "Leland.Rosenbaum@emailservice.co.uk",
+            "creditScore": "681",
+            "riskScore": "53",
+            "creditLimit": "0.0",
+            "transactions": [],
+            "approved": false
+        },
+        {
+            "id": "71178401",
+            "email": "Bart.Olson@sendemails.com",
+            "creditScore": "240",
+            "riskScore": "69",
+            "creditLimit": "887.0",
+            "transactions": [],
+            "approved": false
+        },
+        {
+            "id": "62769011",
+            "email": "Anibal.Hermann@sendemails.com",
+            "creditScore": "564",
+            "riskScore": "70",
+            "creditLimit": "0.0",
+            "transactions": [],
+            "approved": false
+        },
+        {
+            "id": "65297584",
+            "email": "Mariano.Keebler@emailservice.co.uk",
+            "creditScore": "394",
+            "riskScore": "35",
+            "creditLimit": "0.0",
+            "transactions": [],
+            "approved": false
+        },
+        {
+            "id": "58492478",
+            "email": "Linwood.Ernser@realemail.com",
+            "creditScore": "151",
+            "riskScore": "65",
+            "creditLimit": "0.0",
+            "transactions": [],
+            "approved": false
+        },
+        {
+            "id": "41250529",
+            "email": "Eusebia.Jaskolski@bmail.com",
+            "creditScore": "502",
+            "riskScore": "61",
+            "creditLimit": "1112.0",
+            "transactions": [],
+            "approved": false
+        },
+        {
+            "id": "83612430",
+            "email": "Leda.Rolfson@emailshere.com",
+            "creditScore": "389",
+            "riskScore": "74",
+            "creditLimit": "1402.0",
+            "transactions": [],
+            "approved": false
+        },
+        {
+            "id": "64068221",
+            "email": "Felix.Dicki@mailbox.co.uk",
+            "creditScore": "609",
+            "riskScore": "55",
+            "creditLimit": "0.0",
+            "transactions": [],
+            "approved": false
+        },
+        {
+            "id": "45385253",
+            "email": "Candance.Runolfsdottir@emailservice.co.uk",
+            "creditScore": "457",
+            "riskScore": "37",
+            "creditLimit": "1330.0",
+            "transactions": [],
+            "approved": false
+        },
+        {
+            "id": "81154817",
+            "email": "Denise.Haag@freeemailservice.com",
+            "creditScore": "138",
+            "riskScore": "55",
+            "creditLimit": "0.0",
+            "transactions": [],
+            "approved": false
+        },
+        {
+            "id": "20261972",
+            "email": "Charles.Wyman@realemail.com",
+            "creditScore": "269",
+            "riskScore": "15",
+            "creditLimit": "0.0",
+            "transactions": [],
+            "approved": false
+        },
+        {
+            "id": "53038609",
+            "email": "Kellie.Rogahn@booglemail.co.uk",
+            "creditScore": "557",
+            "riskScore": "53",
+            "creditLimit": "1220.0",
+            "transactions": [],
+            "approved": false
+        },
+        {
+            "id": "93301711",
+            "email": "Rosemary.Dickens@emailservice.co.uk",
+            "creditScore": "22",
+            "riskScore": "67",
+            "creditLimit": "937.0",
+            "transactions": [],
+            "approved": false
+        },
+        {
+            "id": "04325874",
+            "email": "Veda.Rutherford@bmail.com",
+            "creditScore": "507",
+            "riskScore": "58",
+            "creditLimit": "1044.0",
+            "transactions": [],
+            "approved": false
+        },
+        {
+            "id": "25355791",
+            "email": "Jennine.Waelchi@emailprovider.com",
+            "creditScore": "351",
+            "riskScore": "40",
+            "creditLimit": "1051.0",
+            "transactions": [],
+            "approved": false
+        },
+        {
+            "id": "02666817",
+            "email": "Nathaniel.Crona@bmail.com",
+            "creditScore": "607",
+            "riskScore": "52",
+            "creditLimit": "0.0",
+            "transactions": [],
+            "approved": false
+        }
+    ],
+    "days": [
+        {
+            "name": "Day 1",
+            "charactersChecked": []
+        },
+        {
+            "name": "Day 2",
+            "charactersChecked": []
+        },
+        {
+            "name": "Day 3",
+            "charactersChecked": []
+        },
+        {
+            "name": "Day 4",
+            "charactersChecked": []
+        },
+        {
+            "name": "Day 5",
+            "charactersChecked": []
+        }
+    ]
+}
